@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0aa54129-b94c-45e0-b220-7431fca2902c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/Julio_Adan_Montano.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/shared/common.js" afterPath="$PROJECT_DIR$/shared/common.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -225,7 +221,7 @@
       <option name="presentableId" value="Default" />
       <updated>1509427154973</updated>
       <workItem from="1509427160379" duration="815000" />
-      <workItem from="1509432238968" duration="1773000" />
+      <workItem from="1509432238968" duration="1857000" />
     </task>
     <task id="LOCAL-00001" summary="Este es el inicio del proyecto">
       <created>1509432343546</created>
@@ -255,11 +251,18 @@
       <option name="project" value="LOCAL" />
       <updated>1509433200880</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Cambios en el common (Solamente ordenamiento)">
+      <created>1509434062083</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1509434062083</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2588000" />
+    <option name="totallyTimeSpent" value="2672000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
@@ -292,7 +295,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Este es el inicio del proyecto" />
     <MESSAGE value="Cambios en el css del login" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cambios en el css del login" />
+    <MESSAGE value="Cambios en el common (Solamente ordenamiento)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cambios en el common (Solamente ordenamiento)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
