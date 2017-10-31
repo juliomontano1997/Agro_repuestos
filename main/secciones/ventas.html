@@ -1,30 +1,30 @@
-<div class="container-fluid" ng-controller="CtrlVentas" >    
-    <aside class="sidebar">                        
+<div class="container-fluid" ng-controller="CtrlVentas" >
+    <aside class="sidebar">
         <div class="menu">
-            <ul class="list">  
+            <ul class="list">
                 <li><h4>Menú de ventas</h4></li>
                 <li >
-                    <a>
-                        <i class="material-icons">perm_identity</i>
-                        <span>Registro Ventas</span>
-                    </a>
-                </li>                                        
-               <li>
-                    <a>
+                    <a ng-click="verRegistro()">
                         <i class="material-icons">toc</i>
-                        <span>Nueva venta</span>
+                        <span>Todas las ventas</span>
                     </a>
-                </li> 
+                </li>
                 <li>
-                    <a>
-                        <i class="material-icons">toc</i>
-                        <span>Nueva venta</span>
+                    <a ng-click="ventasPorMes0()">
+                        <i class="material-icons">schedule</i>
+                        <span>Ventas por mes</span>
                     </a>
-                </li> 
+                </li>
+                <li>
+                    <a ng-click="ventasPorCliente0()">
+                        <i class="material-icons">perm_contact_calendar</i>
+                        <span>Ventas por cliente</span>
+                    </a>
+                </li>
             </ul>
-        </div>                                            
-    </aside>      
+        </div>
+    </aside>
     <div id="contenido" class="informacion">
-        
-    </div>    
+
+    </div>
 </div>
