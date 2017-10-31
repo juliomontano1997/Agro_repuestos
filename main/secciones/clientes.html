@@ -1,0 +1,42 @@
+<div class="container-fluid" ng-controller="CtrlClientes" >    
+        <aside class="sidebar">                        
+            <div class="menu">
+                <ul class="list">  
+                    <li><h4>Menu de clientes</h4></li>                    
+                    <li >
+                        <a ng-click= "mostrarClientes()">
+                            <i class="material-icons">perm_identity</i>
+                            <span>Mis clientes</span>
+                        </a>
+                    </li>                                        
+                   <li>
+                        <a ng-click="nuevoCliente()">
+                            <i class="material-icons">toc</i>
+                            <span>Agregar cliente</span>
+                        </a>
+                    </li>   
+                    <li>
+                        <a ng-click="consultarCliente()">
+                            <i class="material-icons">mode_edit</i>
+                            <span ng-click="">Consultar cliente</span>
+                        </a>
+                    </li> 
+                    <li>
+                        <a ng-click="editarClientes()">
+                            <i class="material-icons">delete</i>
+                            <span>Editar cliente</span>
+                        </a>
+                    </li>     
+                    <li>
+                        <a ng-click="eliminarCliente()">
+                            <i class="material-icons">mode_edit</i>
+                            <span ng-click="">Borrar un cliente</span>
+                        </a>
+                    </li>                                      
+                </ul>
+            </div>                                            
+    </aside>          
+    <div id="contenido" class="informacion">
+     
+    </div>    
+</div>

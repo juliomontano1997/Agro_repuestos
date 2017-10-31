@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html ng-app="loginModule">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Agrorepuestos</title>    
+    <link rel="icon" href="favicon.ico" type="image/x-icon">    
+    <link rel="stylesheet" href="../Agrorepuestos/bower_components/fullcalendar/dist/fullcalendar.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">    
+    <link href="../Agrorepuestos/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../Agrorepuestos/plugins/node-waves/waves.css" rel="stylesheet" />
+    <link href="../Agrorepuestos/plugins/animate-css/animate.css" rel="stylesheet" />
+    <link href="../Agrorepuestos/plugins/material-design-preloader/md-preloader.css" rel="stylesheet" />
+    <link href="../Agrorepuestos/assets/css/login.css" rel="stylesheet">
+    <link href="../Agrorepuestos/assets/css/themes/theme-blue.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../Agrorepuestos/assets/css/mediaQueries.css">
+</head>
+
+<body class="theme-blue" ng-controller="loginController">
+    <section class="login">
+        <div class="titulo">Agrorepuestos</div>
+        <form action="#" method="post" enctype="application/x-www-form-urlencoded">
+            <input type="text" required title="Username required" placeholder="Usuario" data-icon="U">
+            <input type="password" required title="Password required" placeholder="Contraseña" data-icon="x">
+            <div class="olvido">
+                <div class="col"><a href="#" title="Ver Carásteres">Register</a></div>
+                <div class="col"><a href="#" title="Recuperar Password">Fotgot Password?</a></div>
+            </div>
+            <a href="#" ng-click="doLogin()" class="enviar">Entrar</a>
+        </form>
+    </section>
+    <section class="content" ng-view=""> </section>    
+    <script type="text/javascript" src="../Agrorepuestos/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="../Agrorepuestos/bower_components/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="../Agrorepuestos/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="../Agrorepuestos/bower_components/angular-resource/angular-resource.min.js"></script>
+    <script type="text/javascript" src="../Agrorepuestos/bower_components/angular-route/angular-route.min.js"></script>
+    <script type="text/javascript" src="../Agrorepuestos/bower_components/ui-listView/src/ui-listView.js"></script>
+    
+    <script src="../Agrorepuestos/shared/common.js"></script>
+    <script src="../Agrorepuestos/plugins/jquery/jquery.min.js"></script>
+    <script src="loginCtrl.js"> </script>     
+    <script src="../Agrorepuestos/plugins/bootstrap/js/bootstrap.js"></script>
+    <script src="../Agrorepuestos/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+    <script src="../Agrorepuestos/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+    <script src="../Agrorepuestos/plugins/jquery-steps/jquery.steps.js"></script>
+    <script src="../Agrorepuestos/assets/js/pages/forms/form-wizard.js"></script>
+    <script src="../Agrorepuestos/plugins/node-waves/waves.js"></script>
+    <script src="../Agrorepuestos/assets/js/admin.js"></script>
+</body>
+</html>
