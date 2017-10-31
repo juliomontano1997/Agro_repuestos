@@ -1,5 +1,7 @@
 var app = angular.module('loginModule',["ngRoute","ngResource"])
-        .controller('loginController', function($scope, $http) 
+
+
+app.controller('loginController', function($scope, $http)
 {
         $scope.username = "go";
         $scope.password = "";
