@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0aa54129-b94c-45e0-b220-7431fca2902c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agrorepuestos.sql" afterPath="$PROJECT_DIR$/agrorepuestos.sql" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -193,7 +192,7 @@
       <workItem from="1509679537790" duration="1069000" />
       <workItem from="1509682000683" duration="1786000" />
       <workItem from="1509714620054" duration="112000" />
-      <workItem from="1509763508163" duration="14638000" />
+      <workItem from="1509763508163" duration="14650000" />
     </task>
     <task id="LOCAL-00001" summary="Este es el inicio del proyecto">
       <created>1509432343546</created>
@@ -258,11 +257,18 @@
       <option name="project" value="LOCAL" />
       <updated>1509782653498</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Creacion de la estructura principal de la base de datos">
+      <created>1509785911098</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1509785911098</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29798000" />
+    <option name="totallyTimeSpent" value="29810000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
