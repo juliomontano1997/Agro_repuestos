@@ -50,6 +50,14 @@ CREATE DOMAIN
 
 
 
+
+
+
+
+
+
+
+
 -- Tablas
 create table provincias
 (
@@ -140,7 +148,7 @@ create table facturas
     constraint PK_id_facturas primary key(id)    
 );
 
-create table loginInformation
+create table informacion_usuarios
 (
     cedula t_cedula ,  
     lg_info varchar not null,
@@ -225,14 +233,12 @@ create table envios
     
 );
 
-
 create table direcciones
 (
     id serial not null,
     id_distrito int not null,
     cedula t_cedula not null,
     direccion_exacta t_descripcion,
-    
     constraint PK_id_direcciones primary key(id),
     constraint FK_cedula_direcciones foreign key (cedula) references personas,
     constraint FK_id_distrito_direcciones foreign key (id_distrito) references distritos
@@ -240,16 +246,58 @@ create table direcciones
 
 
 
+-- Creacion de esquemas
+-- https://www.postgresql.org/docs/8.1/static/sql-createschema.html
+
+create schema informacion;
+create schema historial;
+create schema inventario;
+
+-- movemos las tablas
+-- https://www.postgresql.org/message-id/BAY104-W5126B6C843A0AB5536ADBDD10F0%40phx.gbl
+alter table "public"."provincias"  set SCHEMA informacion;
+alter table "public"."cantones"  set SCHEMA informacion;
+alter table "public"."distritos"  set SCHEMA informacion;
+alter table "public"."personas"  set SCHEMA informacion;
+alter table "public"."informacion_usuarios"  set SCHEMA informacion;
+alter table "public"."telefonos"  set SCHEMA informacion;
+alter table "public"."correos"  set SCHEMA informacion;
+
+
+alter table "public"."facturas"  set SCHEMA historial;
+alter table "public"."envios"  set SCHEMA historial;
+alter table "public"."productos_facturas"  set SCHEMA historial;
+
+
+alter table "public"."camiones"  set SCHEMA inventario;
+alter table "public"."bodegas"  set SCHEMA inventario;
+alter table "public"."productos"  set SCHEMA inventario;
+alter table "public"."familias"  set SCHEMA inventario;
+alter table "public"."productos_bodegas"  set SCHEMA inventario;
+
+-- Nomenclatura para el nombre   I_nombretabla
+-- http://www.tutorialesprogramacionya.com/postgresqlya/temarios/descripcion.php?cod=199&punto=41&inicio=
+create unique index I_personas on personas(cedula);
+create unique index I_facturas on facturas(id);
+create unique index I_producto_factura on productos_facturas(id_factura, id_producto);
+create unique index I_productos on productos(id);
+create unique index I_productos_bodegas on productos_bodegas(id_producto, id_bodega);
 
 
 
 
+
+
+
+
+/*
 --   Prueba inserciones nivel 1
 
 -- provincias
 insert into provincias (nombre) values ('Alajuela');
 -- personas
 insert into personas values ('9-0130-0731', 'Julio Adan', 'Montano', 'Hernandez', false, 'A');
+insert into personas values ('9-0130-0732', 'Julio', 'Montano', 'Hernandez', false, 'E');
 -- camiones 
 insert into camiones values('NDR-123',2400,'Camion color blanco', 'Diesel');
 -- familias 
@@ -266,22 +314,27 @@ insert into telefonos values ('9-0130-0731', '8721-9049', true);
 insert into correos values('9-0130-0731', 'Juliomontano008@gmail.com');
 -- facturas 
 insert into facturas (cedula, tipo_pago, fecha, tipo, total) values ('9-0130-0731', 'Tarjeta', '4/11/2017', true, 30030);
--- logins 
+-- logins
+--https://www.postgresql.org/message-id/fb73c1ee05072206023fe16b2a%40mail.gmail.com
 insert into loginInformation values('9-0130-0731',md5 ('pg2017' || '9-0130-0731' || '008'));
 
+-- prueba insericiones nivel 3
+-- productos
+insert  into productos values (1, 'Llanta firestone', 30000, '35x12.50R17LT', 1);
+-- distritos
+insert into distritos(nombre, id_canton) values ('San jose', 1);
+-- bodegas
+insert into bodegas (nombre, tipo_almacen, capacidad, id_distrito,direccion_exacta) values ('Bodega 1','Bodega para llantas', 100, 1, 'Costado sur de la parroquia San Jose');
+-- productos en bodegas
+insert into productos_bodegas values(1, 1, 20);
+-- productos facturas
+insert  into productos_facturas(1, 1, 10, 30000, 300000);
 
-
-
-
-
-
-
-
-
-
-
-
-
+-- prueba inserciones nivel 4
+-- envios
+insert into envios(id_factura, cedula, placa, fecha) values  (1, '9-0130-0732', 'NDR-123', '4/11/2017');
+-- direcciones
+insert into direcciones values(1, '9-0130-0731', 'Costado sur escuela La victoria');
 
 
 
@@ -305,7 +358,7 @@ insert into loginInformation values('9-0130-0731',md5 ('pg2017' || '9-0130-0731'
 -- Autenticar al usuario:
 
 --select id from usuarios where password = md5('password_insertado' || 'login_insertado' || id || 'tuvalorfijo' ) and login = 'login_insertado';
-
+*/
 
 
 
