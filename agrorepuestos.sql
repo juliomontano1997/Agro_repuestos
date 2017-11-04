@@ -42,9 +42,9 @@ CREATE DOMAIN
 
 CREATE DOMAIN 
     t_tipo 
-    char(1) not null 
+    varchar(2) not null 
     constraint CHK_tipoPersona 
-    check(value in ('A', 'C', 'E'));
+    check(value in ('A','AA', 'C', 'E'));
 
 
 
@@ -93,6 +93,12 @@ create table familias
 
 
 
+
+
+
+
+--
+
 create table cantones
 (
     id  serial not null,
@@ -134,6 +140,17 @@ create table facturas
     constraint PK_id_facturas primary key(id)    
 );
 
+create table loginInformation
+(
+    cedula t_cedula ,  
+    lg_info varchar not null,
+    constraint UNQ_cedula_loginInformation UNIQUE (cedula), 
+    constraint FK_cedula_login_information foreign key (cedula) references personas
+);
+
+
+
+--
 
 create table productos
 (
@@ -192,6 +209,9 @@ create table productos_facturas
 );
 
 
+
+--
+
 create table envios
 (
     id serial not null,
@@ -219,16 +239,53 @@ create table direcciones
 );
 
 
-create table loginInformation
-(
-    cedula t_cedula ,  
-    lg_info varchar not null,
-    constraint UNQ_cedula_loginInformation UNIQUE (cedula), 
-    constraint FK_cedula_login_information foreign key (cedula) references personas
-);
 
 
 
+
+
+--   Prueba inserciones nivel 1
+
+-- provincias
+insert into provincias (nombre) values ('Alajuela');
+-- personas
+insert into personas values ('9-0130-0731', 'Julio Adan', 'Montano', 'Hernandez', false, 'A');
+-- camiones 
+insert into camiones values('NDR-123',2400,'Camion color blanco', 'Diesel');
+-- familias 
+insert into familias(nombre, tipo_almacen, descripcion) values ('llantas', 'Bodega para llantas', 'Aqui van todas las llantas');
+
+
+--   Prueba inserciones nivel 2
+
+-- cantones
+insert into cantones (nombre, id_provincia) values ('Upala', 1);
+-- telefonos 
+insert into telefonos values ('9-0130-0731', '8721-9049', true);
+-- correos 
+insert into correos values('9-0130-0731', 'Juliomontano008@gmail.com');
+-- facturas 
+insert into facturas (cedula, tipo_pago, fecha, tipo, total) values ('9-0130-0731', 'Tarjeta', '4/11/2017', true, 30030);
+-- logins 
+insert into loginInformation values('9-0130-0731',md5 ('pg2017' || '9-0130-0731' || '008'));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--   Pruebas eliminaciones
 
 
 
