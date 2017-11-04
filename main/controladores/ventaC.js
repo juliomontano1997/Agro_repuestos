@@ -108,7 +108,6 @@ angular.module('moduloAdministrador')
                 if(datos.length===0)
                 {
                     alert("No hay registros en este mes");
-
                 }
                 for (i = 0; i <datos.length; i++)
                 {
