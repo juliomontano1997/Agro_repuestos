@@ -15,12 +15,6 @@ CREATE DOMAIN
 CREATE DOMAIN
     t_genero boolean not null;
 
---ESTADO CIVIL
-CREATE DOMAIN
-    t_estadoCivil char(1) not null
-    constraint CHK_estadoCivil
-    check(value in ('S','V','D','C','U'));
-
 --CEDULA
 CREATE DOMAIN
     t_cedula char(11) not null
@@ -73,8 +67,6 @@ create table personas
     apellido1 t_nombre  not null,
     apellido2 t_nombre  not null,
     genero t_genero not null,
-    estadoCivil t_estadoCivil not null,
-    salarioHora money not null default 3000,
     tipo t_tipo, 
     constraint PK_cedulaEmpleado_empleados primary key(cedula)
 );
@@ -92,11 +84,11 @@ create table camiones
 
 create table familias
 (
-    codigo serial not null,
+    id serial not null,
     nombre t_nombre not null,
-    tipo_almacen  varchar,
+    tipo_almacen  t_nombre not null,
     descripcion t_descripcion not null,
-    constraint PK_codigoFamilia_familias primary key (codigo)
+    constraint PK_codigoFamilia_familias primary key (id)
 );
 
 
@@ -115,6 +107,7 @@ create table telefonos
 (
     cedula t_cedula not null,
     numero t_telefono not null,
+    tipo boolean not null,
     constraint PK_cedula_numero_telefono primary key (cedula,numero),
     constraint FK_cedula_telefono_personas foreign key(cedula) references personas on delete cascade on update cascade
 );
@@ -134,10 +127,10 @@ create table facturas
 (
     id serial not null,
     cedula t_cedula not null,
-    descripcion t_descripcion null,
     tipo_pago t_tipo_pago,
     fecha date not null default now(),
     tipo boolean not null,
+    total money not null default 0,
     constraint PK_id_facturas primary key(id)    
 );
 
@@ -152,9 +145,6 @@ create table productos
     constraint PK_id_producto_nombre_productos primary key (id),
     constraint FK_id_familia_productos_familias foreign key (id_familia) references familias on delete cascade on update cascade
 );
-
-
-
 
 
 
@@ -195,7 +185,8 @@ create table productos_facturas
     id_factura int not null,
     id_producto int not null,
     cantidad int not null,
-    precio_unitario int not null,
+    precio_unitario money not null,
+    precio_parcial money not null,
     constraint FK_id_factura_productos_facturas foreign key (id_factura) references facturas,
     constraint FK_id_producto_productos_facturas foreign key (id_producto) references productos
 );
@@ -203,6 +194,7 @@ create table productos_facturas
 
 create table envios
 (
+    id serial not null,
     id_factura int not null,
     cedula t_cedula not null,
     placa t_placa not null,
@@ -227,9 +219,6 @@ create table direcciones
 );
 
 
-
-
-
 create table loginInformation
 (
     cedula t_cedula ,  
@@ -237,6 +226,19 @@ create table loginInformation
     constraint UNQ_cedula_loginInformation UNIQUE (cedula), 
     constraint FK_cedula_login_information foreign key (cedula) references personas
 );
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
