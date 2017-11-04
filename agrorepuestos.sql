@@ -278,10 +278,54 @@ alter table "public"."productos_bodegas"  set SCHEMA inventario;
 -- Nomenclatura para el nombre   I_nombretabla
 -- http://www.tutorialesprogramacionya.com/postgresqlya/temarios/descripcion.php?cod=199&punto=41&inicio=
 create unique index I_personas on personas(cedula);
-create unique index I_facturas on facturas(id);
+create unique index I_facturas on facturas(fecha);
 create unique index I_producto_factura on productos_facturas(id_factura, id_producto);
 create unique index I_productos on productos(id);
 create unique index I_productos_bodegas on productos_bodegas(id_producto, id_bodega);
+
+
+--   Usuarios
+-- https://todopostgresql.com/crear-usuarios-postgresql/
+
+
+
+
+
+--- se tiene que arreglar
+CREATE USER administrador WITH PASSWORD 'administrador2017';
+ALTER ROLE administrador WITH SUPERUSER;
+
+CREATE USER usuario_normal WITH PASSWORD 'normal2017';
+
+
+CREATE USER respaldo WITH PASSWORD 'respaldo2017';
+-- https://www.nanotutoriales.com/como-crear-un-usuario-y-asignarle-permisos-en-postgresql
+GRANT ALL PRIVILEGES ON DATABASE agrorepuestos to usuario_normal;
+GRANT ALL PRIVILEGES ON DATABASE facturas to respaldo;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
