@@ -30,14 +30,14 @@ CREATE DOMAIN
 --DESCRIPCIONES
 CREATE DOMAIN
     t_nombre varchar(20) ;
+
 CREATE DOMAIN
     t_descripcion varchar(100);
 
--- TIO
+-- TIPO
 CREATE DOMAIN
     t_tipo_pago
     varchar(15) not null
-    constraint CHK_estadoCivil
     check(value in ('Cheque','Efectivo','Tarjeta','Transferencia'));
 
 CREATE DOMAIN 
@@ -45,18 +45,6 @@ CREATE DOMAIN
     varchar(2) not null 
     constraint CHK_tipoPersona 
     check(value in ('A','AA', 'C', 'E'));
-
-
-
-
-
-
-
-
-
-
-
-
 
 -- Tablas
 create table provincias
@@ -85,7 +73,7 @@ create table camiones
     placa t_placa not null,
     capacidad int not null CHECK (capacidad > 0),
     descripcion t_descripcion,
-    tipo_conbustible varchar(10),
+    tipo_combustible varchar(10),
     constraint PK_placa_camion primary key(placa)
 );
 
@@ -99,13 +87,7 @@ create table familias
     constraint PK_codigoFamilia_familias primary key (id)
 );
 
-
-
-
-
-
-
---
+--TABLAS SECUNDARIAS
 
 create table cantones
 (
