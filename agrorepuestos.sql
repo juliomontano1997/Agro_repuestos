@@ -144,9 +144,9 @@ create table informacion_usuarios
 
 create table productos
 (
-    id int not null,
+    id serial not null,
     nombre t_nombre not null,
-    precio int not null,
+    precio money not null,
     descripcion t_descripcion not null,
     id_familia  int not null,
     constraint PK_id_producto_nombre_productos primary key (id),
@@ -197,8 +197,6 @@ create table productos_facturas
     constraint FK_id_factura_productos_facturas foreign key (id_factura) references facturas,
     constraint FK_id_producto_productos_facturas foreign key (id_producto) references productos
 );
-
-
 
 --
 
@@ -268,11 +266,6 @@ create unique index I_productos_bodegas on productos_bodegas(id_producto, id_bod
 
 --   Usuarios
 -- https://todopostgresql.com/crear-usuarios-postgresql/
-
-
-
-
-
 --- se tiene que arreglar
 CREATE USER administrador WITH PASSWORD 'administrador2017';
 ALTER ROLE administrador WITH SUPERUSER;

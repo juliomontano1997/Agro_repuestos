@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0aa54129-b94c-45e0-b220-7431fca2902c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/agrorepuestos.sql" afterPath="$PROJECT_DIR$/agrorepuestos.sql" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -20,8 +19,8 @@
       <file leaf-file-name="agrorepuestos.sql" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/agrorepuestos.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="542">
-              <caret line="132" column="0" lean-forward="true" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+            <state relative-caret-position="202">
+              <caret line="267" column="56" lean-forward="false" selection-start-line="267" selection-start-column="56" selection-end-line="267" selection-end-column="56" />
               <folding />
             </state>
           </provider>
@@ -73,7 +72,7 @@
   <component name="PackageJsonUpdateNotifier">
     <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-7" />
     <option name="width" value="697" />
     <option name="height" value="775" />
@@ -184,7 +183,7 @@
       <workItem from="1509814562116" duration="5153000" />
       <workItem from="1509824270877" duration="5967000" />
       <workItem from="1509840676986" duration="382000" />
-      <workItem from="1509841193805" duration="278000" />
+      <workItem from="1509841193805" duration="829000" />
     </task>
     <task id="LOCAL-00001" summary="Este es el inicio del proyecto">
       <created>1509432343546</created>
@@ -270,14 +269,21 @@
       <option name="project" value="LOCAL" />
       <updated>1509787987612</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Base de datos">
+      <created>1509841520205</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1509841520205</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42977000" />
+    <option name="totallyTimeSpent" value="43528000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -318,7 +324,8 @@
     <MESSAGE value="Actualización de todos los archivos 2" />
     <MESSAGE value="Creacion de la estructura principal de la base de datos" />
     <MESSAGE value="Sabado 4 solo se modifico el query de la base de datos" />
-    <option name="LAST_COMMIT_MESSAGE" value="Sabado 4 solo se modifico el query de la base de datos" />
+    <MESSAGE value="Base de datos" />
+    <option name="LAST_COMMIT_MESSAGE" value="Base de datos" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -673,8 +680,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/agrorepuestos.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="542">
-          <caret line="132" column="0" lean-forward="true" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
+        <state relative-caret-position="202">
+          <caret line="267" column="56" lean-forward="false" selection-start-line="267" selection-start-column="56" selection-end-line="267" selection-end-column="56" />
           <folding />
         </state>
       </provider>
