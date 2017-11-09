@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html ng-app="loginModule">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Agrorepuestos</title>    
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link href="assets/css/login.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/mediaQueries.css">
+</head>
+
+<body class="theme-blue" ng-controller="loginController">
+    <section class="login">
+        <div class="titulo">Agrorepuestos</div>
+        <form action="#" method="post" enctype="application/x-www-form-urlencoded">
+            <input type="text" ng-model="username" required title="Username required" placeholder="Usuario" data-icon="U">
+            <input type="password" ng-model="password" required title="Password required" placeholder="Contraseña" data-icon="x">
+            <div class="olvido">
+<!--                <div class="col"><a href="#" title="Ver Carásteres">Registrarse</a></div>
+                <div class="col"><a href="#" title="Recuperar contraseña">Olvido su contraseña?</a></div>-->
+            </div>
+            <a href="#" ng-click="doLogin()" class="enviar">Entrar</a>
+        </form>
+    </section>
+    <section class="content" ng-view=""> </section>
+</body>
+
+    <script src="shared/common.js"></script>
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="bower_components/moment/min/moment.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-resource/angular-resource.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-route/angular-route.min.js"></script>
+    <script type="text/javascript" src="bower_components/ui-listView/src/ui-listView.js"></script>
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="plugins/bootstrap/js/bootstrap.js"></script>
+    <script src="plugins/bootstrap-select/js/bootstrap-select.js"></script>
+    <script src="plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+    <script src="plugins/jquery-steps/jquery.steps.js"></script>
+    <script src="assets/js/pages/forms/form-wizard.js"></script>
+    <script src="plugins/node-waves/waves.js"></script>
+    <script src="assets/js/admin.js"></script>
+|   <script src="app.js"> </script>
+</html>
