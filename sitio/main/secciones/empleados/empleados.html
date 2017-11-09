@@ -1,0 +1,136 @@
+<div class="container-fluid ng-scope" ng-controller="CtrlEmpleados">
+    <aside class="sidebar">
+        <div class="menu">
+            <ul class="list">
+                <li><h4>Menú de empleados</h4></li>
+                <li>
+                    <a href="#/empleados" ng-click="mostrarEmpleados()">
+                        <i class="material-icons">perm_identity</i>
+                        <span>Empleados</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#/n_empleado" ng-click="nuevoEmpleado()">
+                        <i class="material-icons">library_add</i>
+                        <span>Registrar empleado</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a  href="#/e_empleado" ng-click="borrarEmpleadoForm()">
+                        <i class="material-icons">delete</i>
+                        <span>Borrar empleados</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+
+    <div id="contenido" class="informacion">
+        <table class="table">
+            <thead style="color:#fff">
+            <tr>
+                <td >Cedula</td>
+                <td>Nombre</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  style="color:#fff" row="{{$index}}" ng-repeat="empleado in empleados">
+                <td>{{empleado.r_cedula}}</td>
+                <td>{{empleado.r_nombre}}</td>
+                <td>
+                    <button type="button"
+                            class="btn"
+
+                            ng-click="editarEmpleado($index)" style="color:black;">
+                        Ver/Editar
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="modal fade" id="edicionTelefono" role="dialog"  ng-controller="CtrlEmpleados">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body" style="border:solid; border-color: black;">
+                    <div class="form-group">
+                        <div class='form-group'>
+                            <label  for = "e_telefono" style='color:#000'>Cedula</label>
+                            <input id="e_telefono" class="   form-control">
+                            <button type="button" class="btn"
+                                    data-toggle="modal"
+                                    data-target="#edicionEmpleado"
+                                    style="color:black;">
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--//ng-click="eliminar($index)-->
+    <div class="modal fade" id="edicionEmpleado" role="dialog"  ng-controller="CtrlEmpleados">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body" style="border:solid; border-color: black;">
+                    <div class="form-group">
+
+                        <div class='form-group'>
+                            <label  for = "e_cedula" style='color:#000'>Cedula</label>
+                            <input id="e_cedula" ng-model="cedula" class=" form-control">
+                            <label  for = "e_nombre" style='color:#000'>Nombre</label>
+                            <input id="e_nombre" ng-model="nombre" class="   form-control">
+                            <label  for = "e_appellido1" style='color:#000'>Primer apellido</label>
+                            <input id="e_appellido1" ng-model="primer_apellido" class="   form-control">
+                            <label  for = "e_apellido2" style='color:#000'>Segundo apellido</label>
+                            <input id="e_apellido2" ng-model="segundo_apellido" class="   form-control">
+
+                            <label  style='color:#000'>Telefonos</label>
+                            <table style="overflow: scroll;" class="table">
+                                <thead>
+                                <tr>
+                                    <td >Numero</td>
+                                    <td>Tipo</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr row="{{$index}}" ng-repeat="telefono in telefonos">
+                                    <td>{{telefono.r_numero}}</td>
+                                    <td>{{telefono.r_tipo}}</td>
+                                    <td>
+                                        <button type="button" class="btn"
+                                                data-toggle="modal"
+                                                data-target="#edicionTelefono"
+                                                style="color:black;">
+                                            Edita
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn"
+                                                data-toggle="modal"
+                                                data-target="#edicionEmpleado"
+                                                ng-click="eliminar($index)" style="color:black;">
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
