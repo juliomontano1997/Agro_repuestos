@@ -1,0 +1,85 @@
+*{
+    margin: 0;
+    padding: 0;
+    /*Esto espara borrar los margenes y paddings predefinidos*/
+}
+.navbar
+{
+    background-color:#0489B1;
+}
+body
+{
+    background:#E6E6E6;
+    background-image: url("../../shared/images/fondo.png");
+    background-attachment: fixed;
+}
+footer
+{
+    background-color:#DBDBDF;
+    position:fixed;
+    left:1px;
+    bottom:5px;
+    height:50px;
+    width:100%;
+    font-size: 12px;
+}
+header
+{
+    background-color:#04B404;
+}
+
+li
+{
+    padding-left: 40px;
+    padding-right:40px;
+    /*float: left;*/
+    text-decoration: none;
+}
+
+nav div ul li
+{
+    float: right;
+}
+ul li
+{
+    padding: 10px 20px;
+    display:block;
+    text-decoration: none;
+    color:#FFFFFF;
+}
+
+.tablas
+{
+    width: 70%;
+}
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+.active
+{
+    color: #fff;
+    background-color:#999999;
+}
+.active a
+{
+    color: #fff;
+    text-decoration: none;
+    padding-left: 40px;
+}
+
+.active a:hover
+{
+    color: #000;
+}
+
+
+ul li a i
+{
+    position:relative;
+    bottom:-5px;
+}
+
+#contenido thead
+{
+    position: relative;
+}

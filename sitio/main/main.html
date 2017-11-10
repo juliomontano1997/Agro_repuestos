@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app="moduloAdministrador">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Agrorepuestos y llantas</title>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../bower_components/fullcalendar/dist/fullcalendar.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <link href="../plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../plugins/node-waves/waves.css" rel="stylesheet" />
+    <link href="../plugins/animate-css/animate.css" rel="stylesheet" />
+    <link href="../plugins/material-design-preloader/md-preloader.css" rel="stylesheet" />
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/themes/theme-blue.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../assets/css/mediaQueries.css">
+</head>
+
+<body  ng-controller="CtrlInicio">
+<header>
+    <nav class="navbar" >
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">Logo</a>
+            <ul>
+                <li class="active">
+                    <a href="#/ventas"><span>Ventas</span></a>
+                </li>
+                <li class="active">
+                    <a href="#/productos" ><span>Productos</span></a>
+                </li>
+                <li class="active">
+                    <a href="#/clientes"><span>Clientes</span></a>
+                </li>
+                <li class="active">
+                    <a href="#/proveedores"><span>Proveedores</span></a>
+                </li>
+                <li class="active">
+                    <a href="#/empleados"><span>Empleados</span></a>
+                </li>
+                <li class="active  navbar-link">
+                    <a href="#/inicio"><span>Inicio</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<section class="content" style ng-view="">
+
+</section>
+
+
+<script type="text/javascript" src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="../bower_components/moment/min/moment.min.js"></script>
+<script type="text/javascript" src="../bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="../bower_components/angular-resource/angular-resource.min.js"></script>
+<script type="text/javascript" src="../bower_components/angular-route/angular-route.min.js"></script>
+<script type="text/javascript" src="../bower_components/ui-listView/src/ui-listView.js"></script>
+<script src="../shared/common.js"></script>
+
+
+<script src="app.js"></script>
+<script src="controladores/mainC.js"></script>
+<script src="controladores/clientesC.js"></script>
+<script src="controladores/empleadosC.js"></script>
+<script src="controladores/ventaC.js"></script>
+<script src="controladores/proveedoresC.js"></script>
+<script src="controladores/productosC.js"></script>
+
+<script src="../plugins/jquery/jquery.min.js"></script>
+<script src="../plugins/bootstrap/js/bootstrap.js"></script>
+<script src="../plugins/bootstrap-select/js/bootstrap-select.js"></script>
+<script src="../plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+<script src="../plugins/jquery-steps/jquery.steps.js"></script>
+<script src="../assets/js/pages/forms/form-wizard.js"></script>
+<script src="../plugins/node-waves/waves.js"></script>
+<script src="../assets/js/admin.js"></script>
+</body>
+</html>
