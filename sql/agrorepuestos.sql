@@ -1126,9 +1126,6 @@ $body$
 LANGUAGE plpgsql;
 
 
-
-
-
 CREATE OR REPLACE FUNCTION informacion.mg_get_provincias(OUT r_id int, OUT r_nombre t_nombre)
 RETURNS 
 SETOF RECORD AS 
