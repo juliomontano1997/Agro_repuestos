@@ -64,7 +64,6 @@ ul li
 {
     color: #fff;
     text-decoration: none;
-    padding-left: 40px;
 }
 
 .active a:hover
@@ -77,9 +76,4 @@ ul li a i
 {
     position:relative;
     bottom:-5px;
-}
-
-#contenido thead
-{
-    position: relative;
 }

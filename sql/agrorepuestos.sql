@@ -4,6 +4,8 @@ CREATE DOMAIN
     t_telefono char(9) not null
     constraint CHK_telefono
     check (value similar to '[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]');
+-- true= celular false = casa 
+
 
 --CORREO
 CREATE DOMAIN
@@ -44,7 +46,7 @@ CREATE DOMAIN
     t_tipo
     varchar(2) not null
     constraint CHK_tipoPersona
-    check(value in ('A','AA', 'P','C', 'E'));
+    check(value in ('A','P','C', 'E'));
 
 -- Tablas
 create table provincias
@@ -134,10 +136,8 @@ create table informacion_usuarios
     cedula t_cedula ,
     lg_info varchar not null,
     constraint UNQ_cedula_loginInformation UNIQUE (cedula),
-    constraint FK_cedula_login_information foreign key (cedula) references personas
+    constraint FK_cedula_login_information foreign key (cedula) references personas on delete cascade on update cascade
 );
-
-
 
 --
 
@@ -220,7 +220,7 @@ create table direcciones
     cedula t_cedula not null,
     direccion_exacta t_descripcion,
     constraint PK_id_direcciones primary key(id),
-    constraint FK_cedula_direcciones foreign key (cedula) references personas,
+    constraint FK_cedula_direcciones foreign key (cedula) references personas on delete cascade on update cascade,
     constraint FK_id_distrito_direcciones foreign key (id_distrito) references distritos
 );
 
@@ -469,8 +469,7 @@ BEGIN
         WHERE placa = o_placa;
         RETURN TRUE;
 	EXCEPTION WHEN OTHERS THEN
-	RETURN FALSE;	
-	
+	RETURN FALSE;
 END;
 $body$
 LANGUAGE plpgsql;
@@ -598,6 +597,9 @@ LANGUAGE plpgsql;
 
 select * from informacion.personas;
 select informacion.insertar_telefono('9-0130-0731', '2721-9049', true);
+
+select informacion.insertar_telefono('9-0130-0731', '3333-3333', true);
+
 /*select * from informacion.telefonos;
 select informacion.modificar_telefono('9-0130-0731','8721-9049', '8666-6017', false);
 select * from informacion.telefonos;
@@ -618,12 +620,12 @@ END;
 $body$
 LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION informacion.modificar_correo(e_cedula t_cedula, e_correo t_correo) 
+CREATE OR REPLACE FUNCTION informacion.modificar_correo(e_cedula t_cedula, e_correo_anterior t_correo, e_correo_nuevo t_correo) 
 RETURNS BOOLEAN AS
 $body$
 BEGIN
-	UPDATE informacion.correos SET (correo)= (e_correo)
-	WHERE cedula = e_cedula;
+	UPDATE informacion.correos SET (correo)= (e_correo_nuevo)
+	WHERE cedula = e_cedula and e_correo_anterior=correo;
 	RETURN TRUE;
 	EXCEPTION WHEN OTHERS THEN
 	RETURN FALSE;	
@@ -651,6 +653,7 @@ select informacion.modificar_correo('9-0130-0731', 'juliomontano008@hotmail.com'
 select * from informacion.correos;
 select informacion.eliminar_correo('9-0130-0731', 'juliomontano008@hotmail.com');
 select * from informacion.correos;*/
+
 
 
 
@@ -1177,3 +1180,135 @@ LANGUAGE plpgsql;
 
 select * from informacion.personas;
 select informacion.mg_get_persona('9-0130-0731');
+
+DROP FUNCTION informacion.mg_get_direcciones(t_cedula)
+
+
+CREATE OR REPLACE FUNCTION informacion.mg_get_direcciones(IN e_cedula t_cedula,
+			 OUT r_id_distrito int,
+			 OUT r_direccion t_descripcion,
+			 OUT r_provincia t_nombre, 
+			 OUT r_canton t_nombre, 
+			 OUT r_distrito t_nombre,
+			 OUT r_id_direccion INT)
+RETURNS
+SETOF RECORD AS 
+$body$
+BEGIN 	
+	RETURN query 
+	SELECT 	
+		distritos.id,
+		direcciones.direccion_exacta,
+		provincias.nombre, 		
+		cantones.nombre, 
+		distritos.nombre, 
+		direcciones.id					
+	
+		 
+	FROM	  	
+	informacion.direcciones
+	INNER JOIN 	
+	(SELECT cedula FROM informacion.personas WHERE personas.cedula = e_cedula) as persona
+	ON persona.cedula = direcciones.cedula
+	
+	INNER JOIN
+	informacion.distritos
+	on distritos.id = direcciones.id_distrito
+	
+	INNER JOIN 
+	informacion.cantones	
+	on cantones.id = distritos.id_canton
+	
+	INNER JOIN 
+	informacion.provincias
+	on cantones.id_provincia = provincias.id;
+END;	
+$body$
+LANGUAGE plpgsql;
+
+
+select informacion.mg_get_direcciones('9-0130-0731');
+
+
+
+
+CREATE OR REPLACE FUNCTION informacion.mg_get_distritos (OUT r_id int,OUT r_nombre t_nombre)
+RETURNS
+SETOF RECORD AS 
+$body$
+BEGIN 	
+	RETURN query SELECT  id, nombre FROM informacion.distritos;
+END;
+$body$
+LANGUAGE plpgsql;
+
+
+select informacion.mg_get_distritos()
+
+
+
+
+
+
+
+
+/*1)Ordena de mayor a menor los clientes segun las compras realizadas*/
+SELECT p.nombre||' '||p.apellido1||' '||p.apellido2  "Nombre Completo", SUM(v.total) "Monto total comprado"
+	FROM (SELECT cedula, nombre,apellido1,apellido2 FROM personas WHERE tipo = 'C') p INNER JOIN (SELECT total, cedula FROM facturas) v
+	ON v.cedula = p.cedula GROUP BY "Nombre Completo", v.total ORDER BY v.total;
+
+/*2)Muestra de mayor a menor los empleados segun las ventas realizadas*/
+SELECT p.nombre||' '||p.apellido1||' '||p.apellido2  "Nombre Completo", SUM(v.total) "Monto total vendido"
+	FROM (SELECT cedula, nombre,apellido1,apellido2 FROM personas WHERE tipo = 'E') p INNER JOIN (SELECT total, cedula FROM facturas) v
+	ON v.cedula = p.cedula GROUP BY "Nombre Completo", ORDER BY v.total;
+
+/*3)Ordena los productos y el total comprado de estos de mayor a menor*/
+SELECT p.nombre "Nombre del producto", SUM(f.precio_parcial) "Total vendido"
+	FROM (SELECT id, nombre FROM productos) p INNER JOIN (SELECT id_producto, precio_parcial FROM productos_facturas) f
+	ON p.id = f.id_producto GROUP BY "Nombre del producto", f.precio_parcial ORDER BY f.precio_parcial;
+
+/*4)Muestra los correos de los empleados de San Jose y San Carlos */
+CREATE VIEW direccion_persona
+AS
+(
+    SELECT d.cedula FROM
+	direcciones d INNER JOIN distritos di ON d.id_distrito = di.id
+	INNER JOIN cantones ca ON di.id_canton = ca.id INNER JOIN (SELECT id FROM provincias WHERE nombre = 'San Jose'
+	or nombre = 'Alajuela') p ON ca.id_provincia = p.id
+);
+
+
+SELECT p.nombre||' '||p.apellido1||' '||p.apellido2 "Nombre Completo", c.correo "Correo"
+	FROM (SELECT cedula, nombre,apellido1,apellido2 FROM personas WHERE tipo = 'E') p INNER JOIN
+        (SELECT cedula, correo FROM correos) c ON p.cedula = c.cedula INNER JOIN direccion_persona d ON d.cedula = p.cedula;
+
+
+/*5)Muestra los numeros telefonicos y correos de los 5 clientes mas importantes*/
+SELECT cL.n_c "Nombre Completo", c.correo "Correo", t.numero "Numero telefonico"
+	FROM (SELECT p.cedula, p.nombre||' '||p.apellido1||' '||p.apellido2  "n_c", SUM(v.total) "Monto total comprado"
+	FROM (SELECT cedula, nombre,apellido1,apellido2 FROM personas WHERE tipo = 'C') p INNER JOIN (SELECT total, cedula FROM facturas) v
+	ON v.cedula = p.cedula GROUP BY "n_c", v.total, p.cedula ORDER BY v.total limit 5) cL
+	INNER JOIN correos c ON c.cedula = cL.cedula INNER JOIN telefonos t ON t.cedula = cL.cedula;
+
+
+/*6)Muestra el total de productos que contiene cada bodega*/
+SELECT b.nombre "Nombre bodega", SUM(p.cantidad_producto) "Total de productos almacenados" FROM
+	(SELECT id, nombre FROM bodegas) b INNER JOIN  (SELECT id_bodega, cantidad_producto FROM productos_bodegas) p
+	ON b.id = p.id_bodega GROUP BY "Nombre bodega" ORDER BY "Total de productos almacenados";
+
+/*7)Muestra el total pagado y la cantidad de veces utilizado de los tipos de pago que acepta la aplicación*/
+SELECT f.tipo_pago "Tipo de pago", SUM(f.total) "Total pagado", COUNT(f.tipo_pago) "Cantidad de veces utilizado" FROM facturas f
+	GROUP BY "Tipo de pago" ORDER BY "Cantidad de veces utilizado";
+
+/*8)La cantidad de pedidos de cada cliente*/
+SELECT p.nombre||' '||p.apellido1||' '||p.apellido2 "Nombre Completo", COUNT(e.cedula) "Cantidad de pedidos" FROM
+	(SELECT cedula, nombre, apellido1, apellido2 FROM personas WHERE tipo = 'C') p INNER JOIN
+	envios e ON e.cedula = p.cedula GROUP BY "Nombre Completo";
+
+/*9)Muestra el promedio de ventas del año 2016*/
+SELECT COUNT(f.id)*SUM(f.total) "Promedio de ventas año 2016" FROM (SELECT cedula FROM personas WHERE tipo = 'C') p
+	INNER JOIN (SELECT id, total, cedula FROM facturas f WHERE fecha > '01-01-16' and fecha < '01-01-17') f ON p.cedula = f.cedula;
+
+/*10)Ordena todas las facturas de los proveedores segun la fecha*/
+SELECT per.nombre "Nombre Proveedor", f.id "Identificador factura", f.fecha "Fecha" FROM (SELECT cedula, nombre FROM personas WHERE tipo = 'P') per
+	INNER JOIN facturas f ON per.cedula = f.cedula ORDER BY f.fecha;

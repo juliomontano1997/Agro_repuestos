@@ -27,7 +27,7 @@ angular.module('moduloAdministrador')
                                 alert("Existen dependencias del objeto que se quiere eliminar");
                                 return;
                             }
-                            alert("X  Eliminado");
+                            alert("Eliminado");
                             return;
                         },
                         function myError(response) {
@@ -56,7 +56,7 @@ angular.module('moduloAdministrador')
                             console.log(response);
                             if(response.data==="false")
                             {
-                                alert(":(  ocurrio un error en la insercion");
+                                alert(":(  ocurrio un error, verifica los datos");
                                 return false;
                             }
                             else
@@ -65,7 +65,7 @@ angular.module('moduloAdministrador')
                                 return true;
                             }
                         },
-                        function myError(response) {alert(":(Ocurrio un error, intentalo mas tarde"); return false;});
+                        function myError(response) {alert(":(Ocurrio un error,verifica la conexion o intentalo mas tarde"); return false;});
             }
         };
         return funciones;

@@ -24,10 +24,14 @@
         margin-right: auto;
         margin-left: auto;
     }
-    
+
     .informacion
     {
-        padding-left:30%;
+        padding-left:5%;
+    }
+    .informacion2
+    {
+        padding-left:5%;
     }
     aside 
     {
