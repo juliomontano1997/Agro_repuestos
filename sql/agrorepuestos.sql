@@ -46,7 +46,9 @@ CREATE DOMAIN
     t_tipo
     varchar(2) not null
     constraint CHK_tipoPersona
+
     check(value in ('A','P','C', 'E'));
+
 
 -- Tablas
 create table provincias
@@ -271,8 +273,8 @@ create unique index I_productos_bodegas on inventario.productos_bodegas(id_produ
 -- Cambios
 -- Usuarios
 -- https://todopostgresql.com/crear-usuarios-postgresql/
--- Se tiene que arreglar: sirve pero hay que tener cuidado
-/*
+-- Se tiene que arreglar
+
 CREATE USER administrador WITH PASSWORD 'administrador2017';
 ALTER ROLE administrador WITH SUPERUSER;
 CREATE USER usuario_normal WITH PASSWORD 'normal2017';
@@ -289,7 +291,7 @@ GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA "inventario" TO usuario_normal;
 CREATE USER respaldo WITH PASSWORD 'respaldo2017';
 ALTER ROLE respaldo WITH REPLICATION;
 
-*/
+
 --------------------------------------------------   Metodos almacenados   -----------------------------------------------
 
 -- provincias
@@ -331,11 +333,11 @@ $body$
 LANGUAGE plpgsql;
 
 select informacion.insertar_provincia('Ganacaste');
-/*select * from informacion.provincias;
-select informacion.modificar_provincia(6, 'Guanacaste');
 select * from informacion.provincias;
+select informacion.modificar_provincia(6, 'Guanacaste');
+select * from informacion.provincias; 
 select informacion.eliminar_provincia(6);
-select * from informacion.provincias;*/
+select * from informacion.provincias;
 
 
 
@@ -385,12 +387,11 @@ LANGUAGE plpgsql;
 
 
 select informacion.insertar_persona('9-0130-0731', 'Julio Adan', 'Montano', 'Hernandez', false, 'A');
-
-/*SELECT * FROM informacion.personas;
+SELECT * FROM informacion.personas;
 select informacion.modificar_persona('9-0130-0731', 'Julio Adan', 'Montano', 'Hernandez', false, 'AA');
 SELECT * FROM informacion.personas;
 select informacion.eliminar_persona('9-0130-0731');
-SELECT * FROM informacion.personas;*/
+SELECT * FROM informacion.personas;
 
 
 
@@ -436,11 +437,11 @@ LANGUAGE plpgsql;
 
 
 select inventario.insertar_familia('llantas', 'Bodega para llantas', 'Aqui van todas las llantas');
-/*select * from inventario.familias;
-select inventario.modificar_familia(2,'Llantas', 'Almacen para llantas', 'Aqui van todas las llantas');
 select * from inventario.familias;
+select inventario.modificar_familia(2,'Llantas', 'Almacen para llantas', 'Aqui van todas las llantas');
+select * from inventario.familias; 
 select inventario.eliminar_familia(3);
-select * from inventario.familias;*/
+select * from inventario.familias;
 
 
 
@@ -489,11 +490,11 @@ LANGUAGE plpgsql;
 
 
 select inventario.insertar_camion('NDR-123',2400,'Camion color blanco', 'Diesel');
-/*select * from inventario.camiones;
+select * from inventario.camiones; 
 select inventario.modificar_camion('NDR-123','NDR-321',2200,'Camion color rojo', 'Hidrogeno')
 select * from inventario.camiones;
 select inventario.eliminar_camion('NDR-321');
-select * from inventario.camiones;*/
+select * from inventario.camiones;
 
 
 
@@ -542,11 +543,11 @@ LANGUAGE plpgsql;
 
 select * from informacion.provincias;
 select informacion.insertar_canton('Montes de Oca', 1);
-/*select * from informacion.cantones;
+select * from informacion.cantones;
 select informacion.modificar_canton(2, 'Montes dee Oca', 1);
 select * from informacion.cantones;
 select informacion.eliminar_canton(2);
-select * from informacion.cantones;*/
+select * from informacion.cantones;
 
 
 
@@ -596,15 +597,20 @@ LANGUAGE plpgsql;
 
 
 select * from informacion.personas;
+
 select informacion.insertar_telefono('9-0130-0731', '2721-9049', true);
 
 select informacion.insertar_telefono('9-0130-0731', '3333-3333', true);
 
-/*select * from informacion.telefonos;
+select * from informacion.telefonos;
+
+select informacion.insertar_telefono('9-0130-0731', '8721-9049', true);
+select * from informacion.telefonos;
+
 select informacion.modificar_telefono('9-0130-0731','8721-9049', '8666-6017', false);
 select * from informacion.telefonos;
 select informacion.eliminar_telefono('9-0130-0731','8666-6017');
-select * from informacion.telefonos;*/
+select * from informacion.telefonos;
 
 
 
@@ -647,12 +653,12 @@ LANGUAGE plpgsql;
 
 
 select * from informacion.correos;
-select informacion.insertar_correo('9-0130-0731', 'juliomontano008@hot.com');
-/*select * from informacion.correos;
+select informacion.insertar_correo('9-0130-0731', 'juliomontano008@gmail.com');
+select * from informacion.correos;
 select informacion.modificar_correo('9-0130-0731', 'juliomontano008@hotmail.com');
 select * from informacion.correos;
 select informacion.eliminar_correo('9-0130-0731', 'juliomontano008@hotmail.com');
-select * from informacion.correos;*/
+select * from informacion.correos;
 
 
 
@@ -683,8 +689,6 @@ END;
 $body$
 LANGUAGE plpgsql;
 
-select * from informacion.informacion_usuarios
-
 
 CREATE OR REPLACE FUNCTION informacion.eliminar_informacion_usuario(e_cedula t_cedula, e_password varchar) 
 RETURNS BOOLEAN AS
@@ -701,10 +705,10 @@ LANGUAGE plpgsql;
 
 select informacion.insertar_informacion_usuario('9-0130-0731', 'prueba2017');
 select * from informacion.informacion_usuarios;
-/*select informacion.modificar_informacion_usuario('9-0130-0731', 'prueba2017', 'prueba2016');
+select informacion.modificar_informacion_usuario('9-0130-0731', 'prueba2017', 'prueba2016');
 select * from informacion.informacion_usuarios;
 select informacion.eliminar_informacion_usuario('9-0130-0731', 'prueba2016');
-select * from informacion.informacion_usuarios;*/
+select * from informacion.informacion_usuarios;
 
 
 
@@ -755,11 +759,11 @@ LANGUAGE plpgsql;
 
 
 select historial.insertar_factura('9-0130-0731', 'Tarjeta', '4/11/2017', true, 30030);
-/*select * from historial.facturas;
+select * from historial.facturas;
 select historial.modificar_factura(3,'9-0130-0731', 'Tarjeta', '4/11/2017', true, 30000);
 select * from historial.facturas;
 select historial.eliminar_factura(2);
-select * from historial.facturas;*/
+select * from historial.facturas;
 
 
 
@@ -800,13 +804,13 @@ END;
 $body$
 LANGUAGE plpgsql;
 
-
+select * from inventario.familias;
 select inventario.insertar_producto('Llanta firestone', 30000, '35x12.50R17LT', 1);
-/*select * from inventario.productos;
+select * from inventario.productos;
 select inventario.modificar_producto(1, 'Llanta firestone', 25000, '35x12.50R17LT', 1);
 select * from inventario.productos;
 select inventario.eliminar_producto(1);
-select * from inventario.productos;*/
+select * from inventario.productos;
 
 
 
@@ -847,10 +851,11 @@ END;
 $body$
 LANGUAGE plpgsql;
 
-
+select * from informacion.cantones; 
+select * from informacion.distritos;
 select informacion.insertar_distrito(1, 'San Pedro'); 
-/*select informacion.modificar_distrito(1, 'San pedro', 1);
-elect informacion.eliminar_distrito(1);*/
+select informacion.modificar_distrito(1, 'San pedro', 1); 
+select informacion.eliminar_distrito(1);
 
 
 
@@ -891,9 +896,12 @@ $body$
 LANGUAGE plpgsql;
 
 
-select informacion.insertar_direccion(1,'9-0130-0731','Costado sur escuela La victoria');
-/*select informacion.modificar_direccion(1,2,'9-0130-0731','Costado norte escuela La victoria');
-select informacion.eliminar_direccion(1);*/
+select * from informacion.direcciones;
+select * from informacion.distritos;
+select * from informacion.personas;
+select informacion.insertar_direccion(2,'9-0130-0731','Costado sur escuela La victoria');
+select informacion.modificar_direccion(1,2,'9-0130-0731','Costado norte escuela La victoria');
+select informacion.eliminar_direccion(1);
 
 
 select * from historial.productos_facturas;
@@ -935,12 +943,14 @@ $body$
 LANGUAGE plpgsql;
 
 
-select historial.insertar_producto_factura(1, 1, 10, 30000);
-/*select * from historial.productos_facturas;
+select * from historial.facturas;
+select * from inventario.productos;
+select historial.insertar_producto_factura(3, 2, 10, 30000);
+select * from historial.productos_facturas;
 select historial.modificar_producto_factura(3,2,5,30000);
 select * from historial.productos_facturas;
 select historial.eliminar_producto_factura(3,2);
-select * from historial.productos_facturas;*/
+select * from historial.productos_facturas;
 
 
 
@@ -987,13 +997,14 @@ $body$
 LANGUAGE plpgsql;
 
 select * from informacion.distritos;
-select inventario.insertar_bodega('Bodega 1','Bodega para llantas', 100, 1, 'Costado sur de la parroquia San Jose');
-/*select * from inventario.bodegas;
+select inventario.insertar_bodega('Bodega 1','Bodega para llantas', 100, 2, 'Costado sur de la parroquia San Jose');
+select * from inventario.bodegas;
 select inventario.modificar_bodega(3,'Bodega 1','Bodega para llantas', 100, 2, 'Costado norte');
 select * from inventario.bodegas;
-select inventario.eliminar_bodega(3);*/
+select inventario.eliminar_bodega(3);
 
 
+select * from inventario.productos_bodegas;
 CREATE OR REPLACE FUNCTION inventario.insertar_producto_bodega(e_id_bodega int, e_id_producto int, e_cantidad int ) 
 RETURNS BOOLEAN AS
 $body$
@@ -1032,11 +1043,12 @@ END;
 $body$
 LANGUAGE plpgsql;
 
-
-select inventario.insertar_producto_bodega(1,1, 20);
-/*select * from inventario.productos_bodegas;
+select * from inventario.productos;
+select * from inventario.bodegas;
+select inventario.insertar_producto_bodega(4,2, 20);
+select * from inventario.productos_bodegas;
 select inventario.modificar_producto_bodega(4,2,10);
-select inventario.eliminar_producto_bodega(4,2);*/
+select inventario.eliminar_producto_bodega(4,2);
 
 
 
@@ -1082,12 +1094,13 @@ select * from historial.facturas;
 select * from informacion.personas;
 select * from inventario.camiones;
 
-select historial.insertar_envio(1,'9-0130-0731','NDR-123','11/11/2017');
-/*select * from historial.envios;
+select historial.insertar_envio(3,'9-0130-0731','NDR-123','11/11/2017');
+select * from historial.envios;
 select historial.modificar_envio(2,3,'9-0130-0731','NDR-123','11/12/2017');
 select * from historial.envios;
 select historial.eliminar_envio(1);
-select * from historial.envios;*/
+
+select * from historial.envios;
 
 
 
@@ -1130,50 +1143,139 @@ CREATE OR REPLACE FUNCTION informacion.mg_get_provincias(OUT r_id int, OUT r_nom
 RETURNS 
 SETOF RECORD AS 
 $body$
-BEGIN 
-
-	RETURN query SELECT * FROM informacion.provincias;
-END;
-$body$
-LANGUAGE plpgsql;
+BEGIN
+select * from historial.envios;
 
 
 
-CREATE OR REPLACE FUNCTION informacion.mg_get_telefonos_usuario(IN e_cedula t_cedula,OUT r_numero t_telefono, OUT r_tipo boolean)
-RETURNS 
-SETOF RECORD AS 
-$body$
-BEGIN 	
-	RETURN query SELECT numero, tipo FROM informacion.telefonos where cedula = e_cedula ;
-END;
-$body$
-LANGUAGE plpgsql;
+------------------------Personas-------------------------------
 
-select * from informacion.telefono
+INSERT INTO personas (cedula, nombre, apellido1, apellido2, genero, tipo) VALUES
+('1-0000-1111','Ana','Rojas' ,'Podriguez' ,true,'E'),
+('2-0000-1111','Federico','Boza' ,'Segura',false,'A'),
+('3-1111-0000','Juan','Zocorro' ,'Mora',false,'C'),
+('4-3333-1111','Jay','Garcia' ,'Lopez' ,false,'E'),
+('5-1234-1234','Natalia','Arce','Sanchez',true,'A'),
+('6-5678-5678','Laura','Fuentes' ,'Castro',true,'C');
 
-CREATE OR REPLACE FUNCTION informacion.mg_get_correos_usuario(IN e_cedula t_cedula,OUT r_cedula t_cedula,  OUT r_correo t_correo)
-RETURNS 
-SETOF RECORD AS 
-$body$
-BEGIN 	
-	RETURN query SELECT * FROM informacion.correos where cedula = e_cedula ;
-END;
-$body$
-LANGUAGE plpgsql;
+------------------------Correos-------------------------------
+INSERT INTO correos (cedula,correo) VALUES
+('1-0000-1111','sbozda2@gmail.com'),
+('2-0000-1111','sfzas2@gmail.com'),
+('3-1111-0000','sbo2@gmail.com'),
+('4-3333-1111','sas2@gmail.com'),
+('5-1234-1234','soza@gmfail.com'),
+('6-5678-5678','fzas2@gmail.com');
 
-select informacion.mg_get_correos_usuario('9-0130-0731');
+----------------------Telefonos-------------------------------
+INSERT INTO telefonos (cedula,numero,tipo) VALUES
+('1-0000-1111','9010-1111',true),
+('2-0000-1111','4292-2346',false),
+('3-1111-0000','1030-1111',true),
+('4-3333-1111','4682-2211',false),
+('5-1234-1234','1030-1111',true),
+('6-5678-5678','4682-2211',false);
 
-DROP FUNCTION informacion.mg_get_persona(t_cedula);
+---------------------Provincias-------------------------------
+INSERT INTO provincias (nombre) VALUES
+('San José'),
+('Alajuela'),
+('Cartago'),
+('Heredia'),
+('Guanacaste'),
+('Puntarenas'),
+('Limón');
 
-CREATE OR REPLACE FUNCTION informacion.mg_get_persona(IN e_cedula t_cedula, OUT r_nombre t_nombre, OUT r_apellido1 t_nombre, OUT r_apellido2 t_nombre, OUT r_genero t_genero)
-RETURNS
-SETOF RECORD AS 
-$body$
-BEGIN 	
-	RETURN query SELECT nombre, apellido1, apellido2,genero FROM informacion.personas where cedula = e_cedula ;
-END;
-$body$
-LANGUAGE plpgsql;
+----------------------Cantones--------------------------------
+INSERT INTO cantones (nombre, id_provincia) VALUES
+    ('San Carlos',2),
+    ('Upala',2),
+    ('Los Chiles',2);
+
+---------------------Distritos-------------------------------
+INSERT INTO distritos (nombre, id_canton) VALUES
+    ('Quesada',1),
+    ('Florencia',1),
+    ('La Fortuna',1);
+
+---------------------Direcciones----------------------------
+INSERT INTO direcciones (id_distrito, cedula, direccion_exacta) VALUES
+(1,'1-0000-1111','dir_exacta'),
+(2,'3-1111-0000','dir_exacta'),
+(3,'6-5678-5678','dir_exacta');
+
+---------------------Familias---------------------------------
+INSERT INTO familias (id,nombre,tipo_almacen,descripcion) VALUES
+(1,'caribeña','almacen','descripcion'),
+(2,'rojita','almacen','descripcion'),
+(3,'criolla','almacen','descripcion'),
+(4,'cherry','almacen','descripcion');
+
+---------------------Productos---------------------------------
+INSERT INTO productos (id, nombre, precio, descripcion, id_familia) VALUES
+(1,'Papa',2500,'descripcion',1),
+(2,'Tomate',2500,'descripcion',4),
+(3,'Yuca',2500,'descripcion',3);
+
+--------------------Consultas------------------------------------
+
+/*1)Ordena de mayor a menor los clientes segun las compras realizadas*/
+SELECT p.nombre||' '||p.apellido1||' '||p.apellido2  "Nombre Completo", SUM(v.total) "Monto total comprado"
+	FROM (SELECT cedula, nombre,apellido1,apellido2 FROM personas WHERE tipo = 'C') p INNER JOIN (SELECT total, cedula FROM facturas) v
+	ON v.cedula = p.cedula GROUP BY "Nombre Completo", v.total ORDER BY v.total;
+
+/*2)Muestra de mayor a menor los empleados segun las ventas realizadas*/
+SELECT p.nombre||' '||p.apellido1||' '||p.apellido2  "Nombre Completo", SUM(v.total) "Monto total vendido"
+	FROM (SELECT cedula, nombre,apellido1,apellido2 FROM personas WHERE tipo = 'E') p INNER JOIN (SELECT total, cedula FROM facturas) v
+	ON v.cedula = p.cedula GROUP BY "Nombre Completo", ORDER BY v.total;
+
+/*3)Ordena los productos y el total comprado de estos de mayor a menor*/
+SELECT p.nombre "Nombre del producto", SUM(f.precio_parcial) "Total vendido"
+	FROM (SELECT id, nombre FROM productos) p INNER JOIN (SELECT id_producto, precio_parcial FROM productos_facturas) f
+	ON p.id = f.id_producto GROUP BY "Nombre del producto", f.precio_parcial ORDER BY f.precio_parcial;
+
+/*4)Muestra los correos de los empleados de San Jose y San Carlos */
+CREATE VIEW direccion_persona
+AS
+(
+    SELECT d.cedula FROM
+	direcciones d INNER JOIN distritos di ON d.id_distrito = di.id
+	INNER JOIN cantones ca ON di.id_canton = ca.id INNER JOIN (SELECT id FROM provincias WHERE nombre = 'San Jose'
+	or nombre = 'Alajuela') p ON ca.id_provincia = p.id
+);
+
+
+SELECT p.nombre||' '||p.apellido1||' '||p.apellido2 "Nombre Completo", c.correo "Correo"
+	FROM (SELECT cedula, nombre,apellido1,apellido2 FROM personas WHERE tipo = 'E') p INNER JOIN
+        (SELECT cedula, correo FROM correos) c ON p.cedula = c.cedula INNER JOIN direccion_persona d ON d.cedula = p.cedula;
+
+
+/*5)Muestra los numeros telefonicos y correos de los 5 clientes mas importantes*/
+SELECT cL.n_c "Nombre Completo", c.correo "Correo", t.numero "Numero telefonico"
+	FROM (SELECT p.cedula, p.nombre||' '||p.apellido1||' '||p.apellido2  "n_c", SUM(v.total) "Monto total comprado"
+	FROM (SELECT cedula, nombre,apellido1,apellido2 FROM personas WHERE tipo = 'C') p INNER JOIN (SELECT total, cedula FROM facturas) v
+	ON v.cedula = p.cedula GROUP BY "n_c", v.total, p.cedula ORDER BY v.total limit 5) cL
+	INNER JOIN correos c ON c.cedula = cL.cedula INNER JOIN telefonos t ON t.cedula = cL.cedula;
+
+
+/*6)Muestra el total de productos que contiene cada bodega*/
+SELECT b.nombre "Nombre bodega", SUM(p.cantidad_producto) "Total de productos almacenados" FROM
+	(SELECT id, nombre FROM bodegas) b INNER JOIN  (SELECT id_bodega, cantidad_producto FROM productos_bodegas) p
+	ON b.id = p.id_bodega GROUP BY "Nombre bodega" ORDER BY "Total de productos almacenados";
+
+/*7)Muestra el total pagado y la cantidad de veces utilizado de los tipos de pago que acepta la aplicación*/
+SELECT f.tipo_pago "Tipo de pago", SUM(f.total) "Total pagado", COUNT(f.tipo_pago) "Cantidad de veces utilizado" FROM facturas f
+	GROUP BY "Tipo de pago" ORDER BY "Cantidad de veces utilizado";
+
+/*8)La cantidad de pedidos de cada cliente*/
+SELECT p.nombre||' '||p.apellido1||' '||p.apellido2 "Nombre Completo", COUNT(e.cedula) "Cantidad de pedidos" FROM
+	(SELECT cedula, nombre, apellido1, apellido2 FROM personas WHERE tipo = 'C') p INNER JOIN
+	envios e ON e.cedula = p.cedula GROUP BY "Nombre Completo";
+
+/*9)Muestra el promedio de ventas del año 2016*/
+SELECT COUNT(f.id)*SUM(f.total) "Promedio de ventas año 2016" FROM (SELECT cedula FROM personas WHERE tipo = 'C') p
+	INNER JOIN (SELECT id, total, cedula FROM facturas f WHERE fecha > '01-01-16' and fecha < '01-01-17') f ON p.cedula = f.cedula;
+
 
 select * from informacion.personas;
 select informacion.mg_get_persona('9-0130-0731');
@@ -1309,3 +1411,8 @@ SELECT COUNT(f.id)*SUM(f.total) "Promedio de ventas año 2016" FROM (SELECT cedu
 /*10)Ordena todas las facturas de los proveedores segun la fecha*/
 SELECT per.nombre "Nombre Proveedor", f.id "Identificador factura", f.fecha "Fecha" FROM (SELECT cedula, nombre FROM personas WHERE tipo = 'P') per
 	INNER JOIN facturas f ON per.cedula = f.cedula ORDER BY f.fecha;
+
+/*10)Ordena todas las facturas de los proveedores segun la fecha*/
+SELECT per.nombre "Nombre Proveedor", f.id "Identificador factura", f.fecha "Fecha" FROM (SELECT cedula, nombre FROM personas WHERE tipo = 'P') per
+	INNER JOIN facturas f ON per.cedula = f.cedula ORDER BY f.fecha;
+
