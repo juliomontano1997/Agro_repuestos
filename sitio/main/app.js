@@ -3,9 +3,10 @@ angular.module('moduloAdministrador',["ngRoute","ngResource"])
     {
         $routeProvider
             .when("/inicio",{templateUrl:'secciones/inicio.html',controller:'CtrlInicio'})
-            .when("/empleados",{templateUrl:'secciones/empleados/empleados.html',controller:'CtrlEmpleados'})
-            .when("/productos",{templateUrl:'secciones/productos.html',controller:'CtrlProductos'})
-            .when("/ventas",{templateUrl:'secciones/ventas.html',controller:'CtrlVentas'})
-            .when("/clientes",{templateUrl:'secciones/clientes.html',controller:'CtrlClientes'})
-            .when("/proveedores",{templateUrl:'secciones/proveedores.html',controller:'CtrlProveedores'});
+            .when("/empleados",{templateUrl:'secciones/personas/empleados.html',controller:'CtrlEmpleados'})
+            .when("/clientes",{templateUrl:'secciones/personas/clientes.html',controller:'CtrlClientes'})
+            .when("/proveedores",{templateUrl:'secciones/personas/proveedores.html',controller:'CtrlProveedores'})
+            .when("/familias",{templateUrl:'secciones/inventario/familias.html',controller:'CtrlFamilias'})
+            .when("/productos",{templateUrl:'secciones/inventario/productos.html',controller:'CtrlProductos'})
+            .when("/ventas",{templateUrl:'secciones/historiales/ventas.html',controller:'CtrlVentas'});
     }]);

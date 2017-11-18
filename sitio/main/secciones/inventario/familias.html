@@ -1,0 +1,100 @@
+<div class="ng-scope" ng-controller="CtrlFamilias">
+
+    <div id="modal_agregar_familia" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Nueva familia</h4>
+                </div>
+
+                <div class="modal-body">
+                    <label  for = "n_nombre" style='color:#000'>Nombre</label>
+                    <input name="informacion_nueva" type="text" id="n_nombre"  class="form-control">
+
+                    <label  for = "n_tipo_almacen" style='color:#000'>Tipo almacen</label>
+                    <input name="informacion_nueva" type="text" id="n_tipo_almacen" class="form-control">
+
+                    <label for="comment">Descripcion</label>
+                    <textarea name="informacion_nueva" class="form-control" rows="5" id="comment"></textarea>
+
+                    <br>
+                    <button type="button" class="btn btn-default" ng-click="guardar_nueva_familia()">Guardar</button>
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="modal_editar_familia" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Nueva familia</h4>
+                </div>
+
+                <div class="modal-body">
+                    <label  for = "n_nombre1" style='color:#000'>Nombre</label>
+                    <input name="informacion_editada" type="text" id="n_nombre1"  class="form-control">
+
+                    <label  for = "n_tipo_almacen1" style='color:#000'>Tipo almacen</label>
+                    <input name="informacion_editada" type="text" id="n_tipo_almacen1" class="form-control">
+
+                    <label for="descripcion1">Descripcion</label>
+                    <textarea name="informacion_editada" class="form-control" rows="5" id="descripcion1"></textarea>
+                    <br>
+                    <button type="button" class="btn btn-default" ng-click="guardar_familia_editada()">Guardar</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="contenido" class="informacion">
+        <label style="color:#fff" >Familias</label>
+        <br>
+        <table class="table">
+            <thead style="color:#fff">
+            <tr>
+                <td>Nombre</td>
+                <td>Tipo de almacen</td>
+                <td>Descripción</td>
+                <td></td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  style="color:#fff" row="{{$index}}" ng-repeat="familia in familias">
+                <td>{{familia.r_nombre}}</td>
+                <td>{{familia.r_tipo_almacen}}</td>
+                <td>{{familia.r_descripcion}} <td>
+                    <button type="button" class="btn" ng-click="cargarFamilia($index)" style="color:black;">
+                        Editar
+                    </button>
+                </td>
+
+                <td>
+                    <button type="button" class="btn" ng-click="eliminar_familia($index)" style="color:black;">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn" data-toggle="modal" data-target="#modal_agregar_familia">Agregar familia</button>
+    </div>
+</div>
+

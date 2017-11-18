@@ -1,37 +1,50 @@
-<div class="ng-scope" ng-controller="CtrlEmpleados">
-    <div class="modal fade" id="edicionEmpleado" ng-controller="CtrlEmpleados">
+<div class="ng-scope" ng-controller="CtrlProveedores">
+
+
+    <div class="modal fade" id="edicionProveedor">
         <div class="modal-dialog">
             <div class="modal-content">
+
+
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Editando empleado</h4>
+                    <h4 class="modal-title">Editando proveedor</h4>
                 </div>
+
+
                 <div class="modal-body" style="padding-left:9%; padding-right:9%;background: #A4A4A4; ">
+
                     <label  for = "e_cedula" style='color:#000'>Cedula</label>
-                    <input  type="text" id="e_cedula" ng-model="cedula" class="form-control">
+                    <input name="edicion_proveedor" type="text" id="e_cedula"  class="form-control">
 
                     <label  for = "e_nombre" style='color:#000'>Nombre</label>
-                    <input type="text" id="e_nombre" ng-model="nombre" class="   form-control">
+                    <input name="edicion_proveedor" type="text" id="e_nombre" class="   form-control">
 
                     <label  for = "e_apellido1" style='color:#000'>Primer apellido</label>
-                    <input type="text" id="e_apellido1" ng-model="primer_apellido" class="   form-control">
+                    <input name="edicion_proveedor" type="text" id="e_apellido1" class="   form-control">
 
                     <label  for = "e_apellido2" style='color:#000'>Segundo apellido</label>
-                    <input  type="text" id="e_apellido2" ng-model="segundo_apellido" class="   form-control">
+                    <input name="edicion_proveedor" type="text" id="e_apellido2"  class="   form-control">
+
+
 
                     <label  for = "genero" style='color:#000'>Genero</label>
                     <br>
-
                     <input style='color: #000;:#000'type="radio" id="genero" name="gender" >
                     <label style="color:#000" >Masculino</label>
                     <br>
-
                     <input style='color:#000' type="radio" id="genero1" name="gender" >
                     <label style="color:#000" >Femenino</label>
+
                     <br>
-                    <input style='color:#000' value="Guardar" class="btn"  ng-click="guardar_informacion_empleado()" id="bt_guardar" type="button" >
+
+                    <input style='color:#000' value="Guardar" class="btn"  ng-click="guardar_informacion_proveedor()" id="bt_guardar" type="button" >
+
+
                     <br>
                     <br>
+
+
                     <input value="Ver telefonos" class="btn" ng-click="modals('#modal_telefonos')" type="button" >
                     <input value="Ver correos" class="btn" ng-click="modals('#modal_correos')" type="button" >
                     <input value="Ver direcciones" class="btn" ng-click="modals('#modal_direcciones')" type="button" >
@@ -39,6 +52,8 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                 </div>
+
+
             </div>
         </div>
     </div>
@@ -243,14 +258,14 @@
 
 
 
-    <div id="modal_agregar_empleado" ng-controller="CtrlEmpleados" class="modal fade" role="dialog">
+    <div id="modal_agregar_proveedor" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Nuevo empleado</h4>
+                    <h4 class="modal-title">Nuevo proveedor</h4>
                 </div>
                 <div class="modal-body">
                     <label  for = "e_cedula1" style='color:#000'>Cedula</label>
@@ -275,7 +290,7 @@
                     <input style='color:#000' type="radio" id="genero11" name="gender11" >
                     <label  for = "genero11" style="color:#000" >Femenino</label>
                     <br>
-                    <button type="button" class="btn btn-default" ng-click="nuevoEmpleado()" >Guardar</button>
+                    <button type="button" class="btn btn-default" ng-click="nuevoProveedor()" >Guardar</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -287,33 +302,35 @@
 
 
     <div id="contenido" class="informacion">
+        <label style="color:#fff" >Proveedores </label>
+        <br>
         <table class="table">
             <thead style="color:#fff">
             <tr>
-                <td >Cedula</td>
+                <td>Cedula</td>
                 <td>Nombre</td>
                 <td></td>
             </tr>
             </thead>
             <tbody>
-            <tr  style="color:#fff" row="{{$index}}" ng-repeat="empleado in empleados">
-                <td>{{empleado.r_cedula}}</td>
-                <td>{{empleado.r_nombre +' '+ empleado.r_apellido1+ ' ' + empleado.r_apellido2}}</td>
+            <tr  style="color:#fff" row="{{$index}}" ng-repeat="proveedor in proveedores">
+                <td>{{proveedor.r_cedula}}</td>
+                <td>{{proveedor.r_nombre +' '+ proveedor.r_apellido1+ ' ' + proveedor.r_apellido2}}</td>
                 <td>
-                    <button type="button" class="btn" ng-click="cargarEmpleado($index)" style="color:black;">
+                    <button type="button" class="btn" ng-click="cargarProveedor($index)" style="color:black;">
                         Ver/Editar
                     </button>
                 </td>
 
                 <td>
-                    <button type="button" class="btn" ng-click="eliminarEmpleado($index)" style="color:black;">
+                    <button type="button" class="btn" ng-click="eliminarProveedor($index)" style="color:black;">
                         Eliminar
                     </button>
                 </td>
             </tr>
             </tbody>
         </table>
-        <button type="button" class="btn" data-toggle="modal" data-target="#modal_agregar_empleado">Agregar empleado</button>
+        <button type="button" class="btn" data-toggle="modal" data-target="#modal_agregar_proveedor">Agregar proveedor</button>
 
     </div>
 </div>

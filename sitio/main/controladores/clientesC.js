@@ -1,179 +1,211 @@
 angular.module('moduloAdministrador')
-    .controller('CtrlClientes', function ($scope, $location, ObjetosHtml, Conexion)
+    .controller('CtrlClientes', function ($scope, $location, ObjetosHtml, Conexion) {
+
+    $scope.clientes;
+    $scope.telefonos;
+    $scope.correos;
+    $scope.direcciones;
+    $scope.cantones;
+    $scope.provincias;
+    $scope.distritos;
+    $scope.cedula_edicion;
+
+    $scope.modals = function(modal)
+    {
+        $(modal).modal('show');
+    };
+
+
+    $scope.mostrarClientes= function ()
+    {
+        Conexion.getDatos(function (datos) { console.log(datos); $scope.clientes = datos;},"get_personas_tipo", '?tipo=C');
+    };
+
+
+
+    $scope.cargarClientes = function(indice)
+    {
+        $scope.cedula_edicion = $scope.clientes[indice].r_cedula;
+        document.getElementById("e_cedula").value = $scope.clientes[indice].r_cedula;
+        document.getElementById("e_nombre").value =$scope.clientes[indice].r_nombre;
+        document.getElementById("e_apellido1").value =  $scope.clientes[indice].r_apellido1;
+        document.getElementById("e_apellido2").value =  $scope.clientes[indice].r_apellido2;
+        if( $scope.clientes[indice].r_genero===true)
+        {
+            document.getElementsByName("gender")[0].checked=true;
+        }
+        else
+        {
+            document.getElementsByName("gender")[1].checked=true;
+        }
+        $scope.cargarCorreos($scope.clientes[indice].r_cedula);
+        $scope.cargarTelefonos($scope.clientes[indice].r_cedula);
+        $scope.cargarDirecciones($scope.clientes[indice].r_cedula);
+        $scope.cargarTodosDistritos();
+        $('#edicionCliente').modal('show');
+    };
+
+
+    $scope.cargarTelefonos = function (cedula)
+    {
+        Conexion.getDatos(function (datos) { console.log(datos); $scope.telefonos= datos;},"get_telefonos",  '?cedula='+cedula);
+    };
+
+
+    $scope.cargarCorreos = function (cedula)
+    {
+        Conexion.getDatos(function (datos) { console.log(datos); $scope.correos = datos;},"get_correos",  '?cedula='+cedula);
+    };
+
+    $scope.cargarDirecciones = function (cedula)
+    {
+        Conexion.getDatos(function (datos) { console.log(datos); $scope.direcciones = datos;},"get_direcciones",  '?cedula='+cedula);
+    };
+
+    $scope.cargarProvincias = function ()
+    {
+        Conexion.getDatos(function (datos) { console.log(datos); $scope.provincias = datos; console.log($scope.provincias)},"get_provincias", "");
+    };
+
+
+    $scope.cargarTodosDistritos = function ()
+    {
+        Conexion.getDatos(function (datos) { console.log(datos); $scope.distritos = datos; },"get_distritos", "");
+    };
+
+
+    $scope.cargarCantones = function (provincia)
+    {
+        Conexion.getDatos(function (datos) { console.log(datos); $scope.cantones = datos;},"get_cantones",  '?provincia='+cedula);
+    };
+
+    $scope.cargarDistritos = function (canton)
+    {
+        Conexion.getDatos(function (datos) { console.log(datos); $scope.direcciones = datos;},"get_direcciones",  '?cedula='+cedula);
+    };
+
+
+
+
+
+    $scope.eliminarCliente = function (numeroCliente)
     {
 
-
-        $scope.mostrarClientes = function ()
+        var eliminar= confirm("¿Deseas eliminar este cliente y toda su informacion?");
+        if(eliminar)
         {
-            document.getElementById("contenido").innerHTML = ObjetosHtml.getTable(["", "Cedula", "Nombre"]);
-            var tabla = document.getElementById("tablaDatos");
-            function  llenarTabla(datos)
-            {
-                for (i = 0; i <datos.length; i++)
-                {
-                    var fila = tabla.insertRow();
-                    var celda1 = fila.insertCell(0);
-                    var celda2 = fila.insertCell(1);
-                    var celda3 = fila.insertCell(2);
-                    celda1.innerHTML = i + 1;
-                    celda2.innerHTML =datos[i].cedula;
-                    celda3.innerHTML  = datos[i].nombre + '  ' + datos[i].apellido1;
-                }
-            }
-            Conexion.getDatos(llenarTabla, "clientes");
-        };
+
+            Conexion.eliminarDatos("eliminar_persona", "?cedula="+$scope.clientes[numeroCliente].r_cedula);
+        }
+        location.reload();
+    };
 
 
 
 
 
-        $scope.NuevoRegistro = function ()
+    $scope.eliminarCorreo = function (indice)
+    {
+        var correo = $scope.correos[indice].r_correo;
+        var eliminar= confirm("¿Deseas eliminar este correo?");
+        if(eliminar)
         {
-            document.getElementById("contenido").innerHTML =
-                ObjetosHtml.getEntradaTexto("Cedula", "ced", "Escriba la cedula") +
-                ObjetosHtml.getEntradaTexto("Nombre", "ndp", "Escriba el nombre") +
-                ObjetosHtml.getEntradaTexto("Primer apellido", "ap1", "Escriba el primer apellido") +
-                ObjetosHtml.getEntradaTexto("Segundo apellido", "ap2", "Escriba el segundo apellido") +
-                ObjetosHtml.getRadio("Genero", ["Femenino", "Maculino"]);
+            console.log("Direccion:"+ "eliminar_telefono", "?cedula="+$scope.cedula_edicion+"&correo="+ correo);
+            Conexion.eliminarDatos("eliminar_correo", "?cedula="+$scope.cedula_edicion+"&correo="+ correo);
+        }
+    };
 
-            var boton = ObjetosHtml.getButton("Guardar");
-            boton.addEventListener("click", function (e)
-            {
-                var ced = document.getElementById('ced').value;
-                var n1 = document.getElementById('ndp').value;
-                var a1 = document.getElementById('ap1').value;
-                var a2 = document.getElementById('ap2').value;
-                var gen=document.getElementsByName("gender")[0].checked;
+    $scope.eliminarTelefono = function (telefono)
+    {
 
-                var datos = "?cedula="+ced+"&nombre="+n1+"&apellido1="+a1+"&apellido2="+a2+"&genero="+gen;
-                Conexion.agregarDatos("agregarCliente", datos);
-            });
-            document.getElementById("contenido").appendChild(boton);
-
-            var boton2 = ObjetosHtml.getButton("Siguiente >>", "btn2");
-            boton2.addEventListener("click", function (e)
-            {
-                $scope.variable = document.getElementById("ced").value;
-                $scope.IntroducirDirecciones();
-            });
-            document.getElementById("contenido").appendChild(boton2);
-        };
-
-
-
-
-        $scope.IntroducirDirecciones= function ()
+        var eliminar= confirm("¿Deseas eliminar este telefono?");
+        if(eliminar)
         {
-            document.getElementById("contenido").innerHTML="";
-            function cargarDirecciones(datos)
-            {
-                console.log(datos);
-                var array1 = [];
-                var array2 = [];
-                var pos=0;
-                for(pos=0; pos<datos.length; pos++)
-                {
-                    array1[pos] = datos[pos].direccion;
-                    array2[pos] = datos[pos].iddistrito;
-                    console.log(array1[pos]+array2[pos]);
-                }
-                document.getElementById("contenido").innerHTML += ObjetosHtml.getSelect2("Distritos:", array1, array2, "selectDistritos")+
-                    ObjetosHtml.getEntradaTexto("Direccion exacta","diE", "Escriba la direccion exacta");
+            Conexion.eliminarDatos("eliminar_telefono", "?cedula="+$scope.cedula_edicion + "&numero="+telefono);
+        }
+    };
 
-                var boton1 = ObjetosHtml.getButton("Guardar direccion", "btn1");
-                boton1.addEventListener("click", function (e)
-                {
-                    var id = document.getElementById("selectDistritos").value;
-                    var dir =  document.getElementById("diE").value;
-                    var dt = '?ced='+$scope.variable+'&idd='+id+'&de='+dir;
-                    console.log(dt);
-                    Conexion.agregarDatos("agregarDireccionCliente", dt);
-                });
-                document.getElementById("contenido").appendChild(boton1);
-
-
-
-                var boton2 = ObjetosHtml.getButton("Siguiente >>", "btn2");
-                boton2.addEventListener("click", function (e)
-                {
-                    $scope.insertarCorreos();
-                });
-                document.getElementById("contenido").appendChild(boton2);
-            }
-            Conexion.getDatos(cargarDirecciones, "direcciones");
-        };
-
-        $scope.insertarCorreos= function ()
+    $scope.eliminarDireccion = function (id_direccion)
+    {
+        var eliminar= confirm("¿Deseas eliminar esta dirección?");
+        if(eliminar)
         {
-            document.getElementById("contenido").innerHTML =
-                ObjetosHtml.getEntradaTexto("Correos electronico:", 'email', 'ejemplo@gmail.com');
-            var boton1 = ObjetosHtml.getButton("+ Añadir correo");
-            boton1.addEventListener("click", function (e)
-            {
-                console.log(dt);
-                var corr = document.getElementById("email").value;
-                var dt = "?cedula="+$scope.variable+"&correo="+corr;
-                console.log(dt);
-                Conexion.agregarDatos("agregarCorreoCliente", dt);
-            });
-            document.getElementById("contenido").appendChild(boton1);
+            Conexion.eliminarDatos("eliminar_direccion", "?id="+id_direccion);
+        }
+    };
 
-            var boton2 = ObjetosHtml.getButton("Siguiente>>");
-            boton2.addEventListener("click", function (e)
-            {
-                $scope.insertarTelefonos();
-            });
-            document.getElementById("contenido").appendChild(boton2);
-        };
+    $scope.agregarCorreo = function ()
+    {
+        var correo = document.getElementById('e_n_correo').value;
+        Conexion.agregarDatos("agregar_correo", "?cedula="+$scope.cedula_edicion+"&correo="+correo);
 
-        $scope.insertarTelefonos= function ()
-        {
-            document.getElementById("contenido").innerHTML =
-                ObjetosHtml.getEntradaTexto("Numeros de telefonos:", 'tel', '0000-0000');
-            var boton2 = ObjetosHtml.getButton("+ Añadir telefono");
-            boton2.addEventListener("click", function (e)
-            {
-                var numero = document.getElementById("tel").value;
-                var dt = "?cedula="+$scope.variable+"&telefono="+numero;
-                console.log(dt);
-                Conexion.agregarDatos("agregarTelefonoCliente", dt);
-            });
-            document.getElementById("contenido").appendChild(boton2);
-        };
+
+    };
+
+    $scope.agregarTelefono = function ()
+    {
+        var telef = document.getElementById("e_n_telefono").value;
+        var tipo = document.getElementsByName("e_t_telefono")[0].checked;
+        Conexion.agregarDatos("agregar_telefono", "?cedula="+$scope.cedula_edicion+"&numero="+telef+"&tipo="+tipo);
+    };
+
+    $scope.agregarDireccion = function ()
+    {
+        var id_distrito = $scope.distritos[$('#sel_distritos')[0].selectedIndex].r_id;
+
+        var direccion = $('#dir_exacta').val();
+        console.log(id_distrito+"  "+direccion);
+        Conexion.agregarDatos("agregar_direccion", "?id_distrito="+id_distrito+"&cedula="+$scope.cedula_edicion+"&direccion="+direccion);
+    };
 
 
 
-        $scope.eliminarCliente = function ()
-        {
-            document.getElementById("contenido").innerHTML = ObjetosHtml.getTable(["","Cedula", "Nombre", ""]);
-            function  llenart(datos)
-            {
-                var tabla = document.getElementById("tablaDatos");
-                for (i = 0; i < datos.length; i++)
-                {
-                    var fila = tabla.insertRow();
-                    var celda1 = fila.insertCell(0);
-                    var celda2 = fila.insertCell(1);
-                    var celda3 = fila.insertCell(2);
-                    var celda4 = fila.insertCell(3);
 
-                    celda1.innerHTML = i + 1;
-                    celda2.innerHTML = datos[i].cedula;
-                    celda3.innerHTML = datos[i].nombre + '    ' + datos[i].apellido1 + " " + datos[i].apellido2;
-                    var boton = ObjetosHtml.getButton("Eliminar cliente");
-                    boton.id = datos[i].cedula;
-                    boton.addEventListener("click", function (e)
-                    {
-                        var eliminar=confirm("¿Deseas eliminar este cliente?");
-                        if(eliminar)
-                        {
-                            Conexion.eliminarDatos("eliminarCliente", "?ced="+this.id);
-                        }
-                    });
-                    celda4.appendChild(boton);
-                }
-            }
-            Conexion.getDatos(llenart, "clientes");
-        };
-        $scope.mostrarClientes();
+
+
+    $scope.editarTelefono = function (indice)
+    {
+        var telefonoViejo = $scope.telefonos[indice].r_numero;
+        var telefonoEditado = document.getElementById(telefonoViejo).value;
+        var tipo = document.getElementsByName(telefonoViejo)[0].checked;
+        console.log("editar_telefono", "?cedula="+$scope.cedula_edicion+"&viejo="+telefonoViejo+"&nuevo="+telefonoEditado+"&tipo="+tipo);
+        Conexion.agregarDatos("editar_telefono", "?cedula="+$scope.cedula_edicion+"&viejo="+telefonoViejo+"&nuevo="+telefonoEditado+"&tipo="+tipo);
+
+    };
+
+
+    $scope.editarCorreo = function (indice)
+    {
+        console.log(indice);
+        var correoAnterior = $scope.correos[indice].r_correo;
+        console.log(correoAnterior);
+        var correoNuevo = document.getElementById(correoAnterior).value;
+        console.log(correoNuevo);
+        Conexion.agregarDatos("editar_correo", "?cedula="+$scope.cedula_edicion+"&viejo="+correoAnterior+"&nuevo="+correoNuevo);
+    };
+
+    $scope.guardar_informacion_cliente = function()
+    {
+        var ced = $scope.cedula_edicion;
+        var n1 = document.getElementById('e_nombre').value;
+        var a1 = document.getElementById('e_apellido1').value;
+        var a2 = document.getElementById('e_apellido2').value;
+        var gen=document.getElementsByName("gender")[0].checked;
+        var datos = "?cedula="+ced+"&nombre="+n1+"&apellido1="+a1+"&apellido2="+a2+"&genero="+gen+"&tipo=E";
+        Conexion.agregarDatos("modificar_persona", datos);
+    };
+
+
+    $scope.nuevoCliente= function ()
+    {
+        console.log("Goa");
+        var datos = document.getElementsByName("datos_persona");
+        var gen=document.getElementsByName("gender")[0].checked;
+        var datos2 = "?cedula="+datos[0].value+"&nombre="+datos[1].value+"&apellido1="+datos[2].value+"&apellido2="+datos[3].value+"&genero="+gen+"&tipo=C";
+        console.log(datos2);
+        Conexion.agregarDatos("agregar_persona", datos2);
+        location.reload();
+    };
+    $scope.mostrarClientes();
+
     });

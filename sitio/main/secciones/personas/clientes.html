@@ -1,0 +1,337 @@
+<div class="ng-scope" ng-controller="CtrlClientes">
+
+
+    <div class="modal fade" id="edicionCliente" ng-controller="CtrlClientes">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Editando cliente</h4>
+                </div>
+
+
+                <div class="modal-body" style="padding-left:9%; padding-right:9%;background: #A4A4A4; ">
+
+                    <label  for = "e_cedula" style='color:#000'>Cedula</label>
+                    <input name="edicion_cliente" type="text" id="e_cedula"  class="form-control">
+
+                    <label  for = "e_nombre" style='color:#000'>Nombre</label>
+                    <input name="edicion_cliente" type="text" id="e_nombre" class="   form-control">
+
+                    <label  for = "e_apellido1" style='color:#000'>Primer apellido</label>
+                    <input name="edicion_cliente" type="text" id="e_apellido1" class="   form-control">
+
+                    <label  for = "e_apellido2" style='color:#000'>Segundo apellido</label>
+                    <input name="edicion_cliente" type="text" id="e_apellido2"  class="   form-control">
+
+
+
+                    <label  for = "genero" style='color:#000'>Genero</label>
+                    <br>
+                    <input style='color: #000;:#000'type="radio" id="genero" name="gender" >
+                    <label style="color:#000" >Masculino</label>
+                    <br>
+                    <input style='color:#000' type="radio" id="genero1" name="gender" >
+                    <label style="color:#000" >Femenino</label>
+
+                    <br>
+
+                    <input style='color:#000' value="Guardar" class="btn"  ng-click="guardar_informacion_cliente()" id="bt_guardar" type="button" >
+
+
+                    <br>
+                    <br>
+
+
+                    <input value="Ver telefonos" class="btn" ng-click="modals('#modal_telefonos')" type="button" >
+                    <input value="Ver correos" class="btn" ng-click="modals('#modal_correos')" type="button" >
+                    <input value="Ver direcciones" class="btn" ng-click="modals('#modal_direcciones')" type="button" >
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div id="modal_direcciones" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Direcciones</h4>
+                </div>
+                <div class="modal-body">
+                    <table style="overflow: scroll;" id="tablaDirecciones" class="table">
+                        <thead>
+                        <tr>
+                            <td >Provincia</td>
+                            <td>Canton</td>
+                            <td>Distrito</td>
+                            <td>Direccion exacta</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr row="{{$index}}" ng-repeat="direccion in direcciones">
+                            <td>{{direccion.r_provincia}}</td>
+                            <td>{{direccion.r_canton}}</td>
+                            <td>{{direccion.r_distrito}}</td>
+                            <td>{{direccion.r_direccion}}</td>
+                            <td>
+                                <button type="button" class="btn" >
+                                    Editar
+                                </button>
+                            </td>
+
+                            <td>
+                                <button type="button" ng-click="eliminarDireccion(direccion.r_id_direccion)" class="btn" >
+                                    Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <label  style='color:#000'>Añadir dirección</label>
+                    <br>
+                    <label  for = "sel_distritos" style='color:#000'>Distrito</label>
+                    <select id="sel_distritos" class="form-control">
+                        <option value="{{distrito.r_id}}" ng-repeat="distrito in distritos"> {{distrito.r_nombre}}</option>
+                    </select>
+
+                    <br>
+                    <label  for = "dir_exacta" style='color:#000'>Dirección exacta</label>
+                    <input  type="text" id="dir_exacta"  class="   form-control">
+                    <br>
+                    <input style='color:#000' value="Guardar" ng-click="agregarDireccion()" class="btn" type="button" >
+                    <br>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="modal_correos" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Correos</h4>
+                </div>
+                <div class="modal-body">
+                    <table style="overflow: scroll;" id="tablaCorreos" class="table">
+                        <thead>
+                        <tr>
+                            <td >Correo</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr row="{{$index}}" ng-repeat="correo in correos">
+                            <td><input type="text"  id="{{correo.r_correo}}"   class=" form-control" value="{{correo.r_correo}}"></td>
+                            <td>
+                                <button type="button"
+                                        class="btn"
+                                        ng-click="editarCorreo($index)"
+                                        style="color:black;">
+                                    Guardar
+                                </button>
+                            </td>
+
+                            <td>
+                                <button type="button" ng-click="eliminarCorreo($index)" class="btn" >
+                                    Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <br>
+                    <label  style='color:#000'>Correos</label>
+
+                    <label  for = "e_n_correo" style='color:#000'>Añadir correo</label>
+                    <input  type="text" id="e_n_correo" class="   form-control">
+                    <br>
+                    <input style='color:#000' value="Guardar" class="btn"  ng-click="agregarCorreo()" id="bt_g_n_correo" type="button" >
+                    <br>
+                    <br>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="modal_telefonos" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Telefonos</h4>
+                </div>
+                <div class="modal-body">
+                    <table style="overflow: scroll;" id="tablaTelefonos" class="table">
+                        <thead>
+                        <tr>
+                            <td >Numero</td>
+                            <td>Celular</td>
+                            <td>Casa</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr row="{{$index}}" ng-repeat="telefono in telefonos">
+                            <td><input type="text" id="{{telefono.r_numero}}" class="form-control" value="{{telefono.r_numero}}"></td>
+                            <td>
+                                <input style="color:#000;" ng-checked="telefonos[$index].r_tipo" type="radio" name="{{telefono.r_numero}}" >
+                            </td>
+                            <td>
+                                <input style="color:#000"  ng-checked="!(telefonos[$index].r_tipo)"  type="radio" name="{{telefono.r_numero}}" >
+                            </td>
+                            <td>
+                                <button type="button"
+                                        class="btn"
+                                        ng-click="editarTelefono($index)"
+                                        style="color:black;">
+                                    Guardar
+                                </button>
+                            </td>
+
+                            <td>
+                                <button type="button" class="btn" ng-click="eliminarTelefono(telefono.r_numero)">
+                                    Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <br>
+                    <br>
+                    <label  for = "e_n_telefono" style='color:#000'>Añadir telefono</label>
+                    <input  type="text" id="e_n_telefono"  class="   form-control">
+                    <br>
+
+                    <label style='color:#000'>Tipo</label>
+                    <br>
+                    <input style='color: #000;:#000'type="radio" name="e_t_telefono" >
+                    <label style="color:#000" >Celular</label>
+                    <br>
+                    <input style='color:#000' type="radio" name="e_t_telefono" >
+                    <label style="color:#000" >Casa/Oficina</label>
+                    <br>
+                    <input style='color:#000' value="Guardar" class="btn"  ng-click="agregarTelefono()" type="button" >
+                    <br>
+                    <br>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div id="modal_agregar_cliente" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Nuevo cliente</h4>
+                </div>
+                <div class="modal-body">
+                    <label  for = "e_cedula1" style='color:#000'>Cedula</label>
+                    <input name="datos_persona"   type="text" id="e_cedula1" ng-model="d" class="form-control">
+
+                    <label  for = "e_nombre1" style='color:#000'>Nombre</label>
+                    <input name="datos_persona" type="text" id="e_nombre1" ng-model="nombre" class="   form-control">
+
+                    <label  for = "e_apellido11" style='color:#000'>Primer apellido</label>
+                    <input name="datos_persona" type="text" id="e_apellido11" ng-model="primer_apellido" class="   form-control">
+
+                    <label  for = "e_apellido22" style='color:#000'>Segundo apellido</label>
+                    <input name="datos_persona"  type="text" id="e_apellido22" ng-model="segundo_apellido" class="   form-control">
+
+                    <label  for = "genero" style='color:#000'>Genero</label>
+                    <br>
+
+                    <input  style='color: #000;:#000' type="radio" id="genero0" name="gender11" >
+                    <label  for = "genero0" style="color:#000" >Masculino</label>
+                    <br>
+
+                    <input style='color:#000' type="radio" id="genero11" name="gender11" >
+                    <label  for = "genero11" style="color:#000" >Femenino</label>
+                    <br>
+                    <button type="button" class="btn btn-default" ng-click="nuevoCliente()" >Guardar</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="contenido" class="informacion">
+        <label style="color:#fff" >Clientes </label>
+        <br>
+        <table class="table">
+            <thead style="color:#fff">
+            <tr>
+                <td>Cedula</td>
+                <td>Nombre</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  style="color:#fff" row="{{$index}}" ng-repeat="cliente in clientes">
+                <td>{{cliente.r_cedula}}</td>
+                <td>{{cliente.r_nombre +' '+ cliente.r_apellido1+ ' ' + cliente.r_apellido2}}</td>
+                <td>
+                    <button type="button" class="btn" ng-click="cargarClientes($index)" style="color:black;">
+                        Ver/Editar
+                    </button>
+                </td>
+
+                <td>
+                    <button type="button" class="btn" ng-click="cargarClientes($index)" style="color:black;">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn" data-toggle="modal" data-target="#modal_agregar_cliente">Agregar cliente</button>
+
+    </div>
+</div>
+

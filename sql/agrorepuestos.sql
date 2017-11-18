@@ -1128,6 +1128,8 @@ LANGUAGE plpgsql;
 
 select informacion.mg_login('9-0130-0731', 'prueba2017');
 -- Falta seguridad
+
+
 CREATE OR REPLACE FUNCTION informacion.mg_get_personas_tipo(IN e_tipo t_tipo, OUT r_cedula t_cedula, OUT r_nombre t_nombre, OUT r_apellido1 t_nombre, OUT r_apellido2 t_nombre, OUT r_genero t_genero)
 RETURNS 
 SETOF RECORD AS 
@@ -1138,13 +1140,98 @@ END;
 $body$
 LANGUAGE plpgsql;
 
+select * from informacion.personas;
+select informacion.mg_get_persona('9-0130-0731');
 
-CREATE OR REPLACE FUNCTION informacion.mg_get_provincias(OUT r_id int, OUT r_nombre t_nombre)
-RETURNS 
+DROP FUNCTION informacion.mg_get_direcciones(t_cedula)
+
+
+CREATE OR REPLACE FUNCTION informacion.mg_get_direcciones(IN e_cedula t_cedula,
+			 OUT r_id_distrito int,
+			 OUT r_direccion t_descripcion,
+			 OUT r_provincia t_nombre, 
+			 OUT r_canton t_nombre, 
+			 OUT r_distrito t_nombre,
+			 OUT r_id_direccion INT)
+RETURNS
 SETOF RECORD AS 
 $body$
-BEGIN
-select * from historial.envios;
+BEGIN 	
+	RETURN query 
+	SELECT 	
+		distritos.id,
+		direcciones.direccion_exacta,
+		provincias.nombre, 		
+		cantones.nombre, 
+		distritos.nombre, 
+		direcciones.id					
+	
+		 
+	FROM	  	
+	informacion.direcciones
+	INNER JOIN 	
+	(SELECT cedula FROM informacion.personas WHERE personas.cedula = e_cedula) as persona
+	ON persona.cedula = direcciones.cedula
+	
+	INNER JOIN
+	informacion.distritos
+	on distritos.id = direcciones.id_distrito
+	
+	INNER JOIN 
+	informacion.cantones	
+	on cantones.id = distritos.id_canton
+	
+	INNER JOIN 
+	informacion.provincias
+	on cantones.id_provincia = provincias.id;
+END;	
+$body$
+LANGUAGE plpgsql;
+
+
+select informacion.mg_get_direcciones('9-0130-0731');
+
+
+
+
+CREATE OR REPLACE FUNCTION informacion.mg_get_distritos (OUT r_id int,OUT r_nombre t_nombre)
+RETURNS
+SETOF RECORD AS 
+$body$
+BEGIN 	
+	RETURN query SELECT  id, nombre FROM informacion.distritos;
+END;
+$body$
+LANGUAGE plpgsql;
+
+
+select informacion.mg_get_distritos()
+
+
+--  Permite obtener las familias de productos 
+
+
+CREATE OR REPLACE FUNCTION inventario.mg_get_familias(OUT r_id INT, OUT r_nombre t_nombre, OUT r_tipo_almacen t_nombre, OUT r_descripcion t_descripcion)
+RETURNS
+SETOF RECORD AS 
+$body$
+BEGIN 	
+	RETURN query SELECT  * from inventario.familias;
+END;
+$body$
+LANGUAGE plpgsql;
+
+select inventario.mg_get_familias();
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1275,80 +1362,6 @@ SELECT p.nombre||' '||p.apellido1||' '||p.apellido2 "Nombre Completo", COUNT(e.c
 /*9)Muestra el promedio de ventas del año 2016*/
 SELECT COUNT(f.id)*SUM(f.total) "Promedio de ventas año 2016" FROM (SELECT cedula FROM personas WHERE tipo = 'C') p
 	INNER JOIN (SELECT id, total, cedula FROM facturas f WHERE fecha > '01-01-16' and fecha < '01-01-17') f ON p.cedula = f.cedula;
-
-
-select * from informacion.personas;
-select informacion.mg_get_persona('9-0130-0731');
-
-DROP FUNCTION informacion.mg_get_direcciones(t_cedula)
-
-
-CREATE OR REPLACE FUNCTION informacion.mg_get_direcciones(IN e_cedula t_cedula,
-			 OUT r_id_distrito int,
-			 OUT r_direccion t_descripcion,
-			 OUT r_provincia t_nombre, 
-			 OUT r_canton t_nombre, 
-			 OUT r_distrito t_nombre,
-			 OUT r_id_direccion INT)
-RETURNS
-SETOF RECORD AS 
-$body$
-BEGIN 	
-	RETURN query 
-	SELECT 	
-		distritos.id,
-		direcciones.direccion_exacta,
-		provincias.nombre, 		
-		cantones.nombre, 
-		distritos.nombre, 
-		direcciones.id					
-	
-		 
-	FROM	  	
-	informacion.direcciones
-	INNER JOIN 	
-	(SELECT cedula FROM informacion.personas WHERE personas.cedula = e_cedula) as persona
-	ON persona.cedula = direcciones.cedula
-	
-	INNER JOIN
-	informacion.distritos
-	on distritos.id = direcciones.id_distrito
-	
-	INNER JOIN 
-	informacion.cantones	
-	on cantones.id = distritos.id_canton
-	
-	INNER JOIN 
-	informacion.provincias
-	on cantones.id_provincia = provincias.id;
-END;	
-$body$
-LANGUAGE plpgsql;
-
-
-select informacion.mg_get_direcciones('9-0130-0731');
-
-
-
-
-CREATE OR REPLACE FUNCTION informacion.mg_get_distritos (OUT r_id int,OUT r_nombre t_nombre)
-RETURNS
-SETOF RECORD AS 
-$body$
-BEGIN 	
-	RETURN query SELECT  id, nombre FROM informacion.distritos;
-END;
-$body$
-LANGUAGE plpgsql;
-
-
-select informacion.mg_get_distritos()
-
-
-
-
-
-
 
 
 /*1)Ordena de mayor a menor los clientes segun las compras realizadas*/
