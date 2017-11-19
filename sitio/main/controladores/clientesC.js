@@ -1,5 +1,6 @@
 angular.module('moduloAdministrador')
-    .controller('CtrlClientes', function ($scope, $location, ObjetosHtml, Conexion) {
+    .controller('CtrlClientes',
+function ($scope, $location, ObjetosHtml, Conexion) {
 
     $scope.clientes;
     $scope.telefonos;

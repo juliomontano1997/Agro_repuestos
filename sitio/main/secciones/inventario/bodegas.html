@@ -1,10 +1,157 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div class="ng-scope">
 
-</body>
-</html>
+    <div id="modal_agregar_bodega" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Nueva bodega</h4>
+                </div>
+
+                <div class="modal-body">
+                    <label  for = "i1" style='color:#000'>Nombre</label>
+                    <input name="informacion_nueva" type="text" id="i1"  class="form-control">
+
+                    <label  for = "i2" style='color:#000'>Tipo almacen</label>
+                    <input name="informacion_nueva" type="text" id="i2" class="form-control">
+
+                    <label for="i3">Capacidad</label>
+                    <input name="informacion_nueva" type="text" id="i3" class="form-control">
+                    <label  for = "id4" style='color:#000'>Distrito</label>
+                    <select id="id4" class="form-control">
+                        <option value="{{distrito.r_id}}" ng-repeat="distrito in distritos"> {{distrito.r_nombre}}</option>
+                    </select>
+                    <label for="id5">Direccion exacta</label>
+                    <textarea name="informacion_nueva" class="form-control" rows="5" id="id5"></textarea>
+                    <br>
+                    <button type="button" class="btn btn-default" ng-click="guardar_nueva_Bodega()">Guardar</button>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="modal_editar_bodega" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Editar bodega</h4>
+                </div>
+
+                <div class="modal-body">
+                    <label  for = "id11" style='color:#000'>Nombre</label>
+                    <input name="informacion_editada" type="text" id="id11"  class="form-control">
+
+                    <label  for = "id22" style='color:#000'>Tipo almacen</label>
+                    <input name="informacion_editada" type="text" id="id22" class="form-control">
+
+                    <label for="id33">Capacidad</label>
+                    <input name="informacion_editada"  type="text" id="id33" class="form-control">
+
+                    <label  for = "id44" style='color:#000'>Distrito</label>
+                    <select id="id44" class="form-control">
+                        <option value="{{distrito.r_id}}" ng-repeat="distrito in distritos"> {{distrito.r_nombre}}</option>
+                    </select>
+                    <label for="id55">Direccion exacta</label>
+                    <textarea name="informacion_editada" class="form-control" rows="5" id="id55"></textarea>
+                    <br>
+
+                    <br>
+                    <button type="button" class="btn btn-default" ng-click="guardar_bodega_editada()">Guardar</button>
+                    <br>
+                    <br>
+
+                    <button type="button" class="btn" ng-click="cargarProductosBodega($index)" style="color:black;">Ver productos guardados</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal_productos_bodega" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Productos en esta bodega</h4>
+                </div>
+                <div class="modal-body">
+                    <label style="color:#fff" >Bodegas</label>
+                    <br>
+                    <table class="table">
+                        <thead style="color:#000">
+                        <tr>
+                            <td>Nombre</td>
+                            <td>Cantidad</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr  style="color:#000" row="{{$index}}" ng-repeat="producto in productosEnBodega">
+                                <td>{{producto.r_nombre}}</td>
+                                <td>{{producto.r_cantidad}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <br>
+                    <label  for = "selectProducto" style='color:#000'>Agregar un nuevo producto</label>
+                    <label  for = "selectProducto" style='color:#000'>Selecccione un producto</label>
+                    <select id="selectProducto" class="form-control">
+                        <option  ng-repeat="prod in productos"> {{prod.r_nombre}}</option>
+                    </select>
+                    <label for="imput_cantidad">Cantidad</label>
+                    <input  type="text" id="imput_cantidad" class="form-control">
+                    <br>
+                    <button type="button" class="btn" ng-click="guardarProductoEnBodega()" style="color:black;">Guardar</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="contenido" class="informacion">
+        <label style="color:#fff" >Bodegas</label>
+        <br>
+        <table class="table">
+            <thead style="color:#fff">
+            <tr>
+                <td>Nombre</td>
+                <td>Tipo de almacen</td>
+                <td>Capacidad</td>
+                <td>Direccion</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  style="color:#fff" row="{{$index}}" ng-repeat="bodega in bodegas">
+
+                <td>{{bodega.r_nombre}}</td>
+                <td>{{bodega.r_tipo_almacen}}</td>
+                <td>{{bodega.r_capacidad}} </td>
+                <td>{{ bodega.r_direccion_exacta+' / ' + bodega.r_distrito +' / ' +bodega.r_canton + ' / '+bodega.r_provincia}} </td>
+                <td><button type="button" class="btn" ng-click="cargarBodega($index)" style="color:black;">Editar</button></td>
+                <td><button type="button" class="btn" ng-click="eliminar_bodega($index)" style="color:black;">Eliminar</button></td>
+            </tr>
+            </tbody>
+        </table>
+        <button type="button" data-toggle="modal" data-target="#modal_agregar_bodega" class="btn" >Agregar bodega</button>
+    </div>
+</div>
+

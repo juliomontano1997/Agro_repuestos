@@ -8,5 +8,7 @@ angular.module('moduloAdministrador',["ngRoute","ngResource"])
             .when("/proveedores",{templateUrl:'secciones/personas/proveedores.html',controller:'CtrlProveedores'})
             .when("/familias",{templateUrl:'secciones/inventario/familias.html',controller:'CtrlFamilias'})
             .when("/productos",{templateUrl:'secciones/inventario/productos.html',controller:'CtrlProductos'})
+            .when("/bodegas",{templateUrl:'secciones/inventario/bodegas.html',controller:'CtrlBodegas'})
+            .when("/camiones",{templateUrl:'secciones/inventario/camiones.html',controller:'CtrlCamiones'})
             .when("/ventas",{templateUrl:'secciones/historiales/ventas.html',controller:'CtrlVentas'});
     }]);

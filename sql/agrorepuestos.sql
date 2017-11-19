@@ -165,7 +165,7 @@ create table distritos
     constraint Fk_id_canton_distritos_cantones foreign key (id_canton) references cantones
 );
 
-create table bodegas
+create TABLE bodegas
 (
     id serial not null,
     nombre t_nombre not null,
@@ -211,9 +211,11 @@ create table envios
     fecha date not null default now(),
     constraint FK_id_factura_envios foreign key (id_factura) references facturas,
     constraint FK_cedula_envios foreign key (cedula) references personas,
-    constraint FK_placa_envios foreign key (placa) references camiones
+    constraint FK_placa_envios foreign key (placa) references camiones on update cascade 
 
 );
+
+
 
 create table direcciones
 (
@@ -413,8 +415,7 @@ RETURNS BOOLEAN AS
 $body$
 BEGIN
 	UPDATE inventario.familias 
-	SET (nombre, tipo_almacen,descripcion) = (nuevo_nombre, nuevo_tipo_almacen, nuevo_descripcion)
-        WHERE id =e_id;
+	SET (nombre, tipo_almacen,descripcion) = (nuevo_nombre, nuevo_tipo_almacen, nuevo_descripcion) WHERE id = e_id;
 	RETURN TRUE;
 	EXCEPTION WHEN OTHERS THEN
 	RETURN FALSE;	
@@ -468,9 +469,9 @@ BEGIN
 	UPDATE inventario.camiones 
 	SET (placa,capacidad,descripcion, tipo_combustible) = (e_placa, e_capacidad, e_descripcion, e_tipo_combustible)
         WHERE placa = o_placa;
-        RETURN TRUE;
+	RETURN TRUE;
 	EXCEPTION WHEN OTHERS THEN
-	RETURN FALSE;
+	RETURN FALSE;	
 END;
 $body$
 LANGUAGE plpgsql;
@@ -1045,12 +1046,12 @@ LANGUAGE plpgsql;
 
 select * from inventario.productos;
 select * from inventario.bodegas;
-select inventario.insertar_producto_bodega(4,2, 20);
+select inventario.insertar_producto_bodega(6,1, 20);
 select * from inventario.productos_bodegas;
 select inventario.modificar_producto_bodega(4,2,10);
 select inventario.eliminar_producto_bodega(4,2);
 
-
+select * from inventario.productos_bodegas
 
 CREATE OR REPLACE FUNCTION historial.insertar_envio(e_id_factura int, e_cedula t_cedula, e_placa t_placa, e_fecha date ) 
 RETURNS BOOLEAN AS
@@ -1225,9 +1226,80 @@ select inventario.mg_get_familias();
 
 
 
+CREATE OR REPLACE FUNCTION inventario.mg_get_bodegas(OUT r_id INT, OUT r_nombre t_nombre, OUT r_tipo_almacen varchar, OUT r_capacidad INT, OUT r_provincia t_nombre, OUT r_canton t_nombre,OUT r_distrito t_nombre,OUT r_id_distrito INT, OUT r_direccion_exacta t_descripcion)
+RETURNS
+SETOF RECORD AS 
+$body$
+BEGIN 	
+	RETURN query SELECT bodegas.id, bodegas.nombre, bodegas.tipo_almacen, bodegas.capacidad, provincias.nombre, cantones.nombre,distritos.nombre, bodegas.id_distrito,bodegas.direccion_exacta  from 
+		inventario.bodegas
+		inner join 
+		informacion.distritos
+		on bodegas.id_distrito = distritos.id
+		inner join 
+		informacion.cantones
+		on cantones.id = distritos.id_canton
+		inner join 
+		informacion.provincias
+		on  cantones.id_provincia= provincias.id;
+END;
+$body$
+LANGUAGE plpgsql;
 
 
 
+
+CREATE OR REPLACE FUNCTION inventario.mg_get_productos(OUT r_id INT, OUT r_nombre t_nombre, OUT r_precio NUMERIC, OUT r_descripcion t_descripcion, OUT r_id_familia INT, OUT r_nombre_familia t_nombre)
+RETURNS
+SETOF RECORD AS 
+$body$
+BEGIN 	
+	RETURN query SELECT  productos.id, productos.nombre, productos.precio::NUMERIC, productos.descripcion,familias.id, familias.nombre from 
+		inventario.productos 
+		inner join 
+		inventario.familias 
+		on productos.id_familia= familias.id;
+END;
+$body$
+LANGUAGE plpgsql;
+
+
+
+
+
+
+
+CREATE OR REPLACE FUNCTION inventario.mg_get_camiones(OUT r_placa t_placa, OUT r_capacidad INT,OUT r_descripcion t_descripcion,OUT r_combustible varchar(10))
+RETURNS
+SETOF RECORD AS 
+$body$
+BEGIN 	
+	RETURN query SELECT * from inventario.camiones;
+
+END;
+$body$
+LANGUAGE plpgsql;
+
+
+select inventario.mg_get_camiones();
+
+
+
+CREATE OR REPLACE FUNCTION inventario.mg_get_productos_bodega(IN id_almacen INT,OUT r_id_producto INT, OUT r_nombre t_nombre, OUT r_cantidad INT)
+RETURNS
+SETOF RECORD AS 
+$body$
+BEGIN 	
+	RETURN query SELECT productos_bodegas.id_producto, productos.nombre, productos_bodegas.cantidad_producto from 
+		inventario.productos_bodegas
+		inner join	
+		inventario.productos
+		on productos.id = productos_bodegas.id_producto and productos_bodegas.id_bodega = id_almacen;
+END;
+$body$
+LANGUAGE plpgsql;
+
+select inventario.mg_get_productos_bodega(1);
 
 
 

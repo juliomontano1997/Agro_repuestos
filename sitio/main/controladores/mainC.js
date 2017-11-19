@@ -38,7 +38,7 @@ angular.module('moduloAdministrador')
 
             actualizarDatos: function(nombreQuery, parametros)
             {
-                var direccion = "http://localhost:8081/"+ nombreQuery+parametros;
+                var direccion = API_ROOT+ nombreQuery+parametros;
                 $http({method : "POST", url :direccion})
                     .then(function mySucces(response) {
                             alert("Edicion completada");
@@ -56,16 +56,16 @@ angular.module('moduloAdministrador')
                             console.log(response);
                             if(response.data==="false")
                             {
-                                alert(":(  ocurrio un error, verifica los datos");
+                                alert("Error, verifica los datos");
                                 return false;
                             }
                             else
                             {
-                                alert(":)  Se añadio exitosamente");
+                                alert("Guardado");
                                 return true;
                             }
                         },
-                        function myError(response) {alert(":(Ocurrio un error,verifica la conexion o intentalo mas tarde"); return false;});
+                        function myError(response) {alert("Error, verifica la conexion o intentalo mas tarde"); return false;});
             }
         };
         return funciones;

@@ -36,11 +36,11 @@ angular.module('moduloAdministrador')
             {
                 document.getElementsByName("gender")[1].checked=true;
             }
-            $scope.cargarCorreos($scope.proveedores[indice].r_cedula);
-            $scope.cargarTelefonos($scope.proveedores[indice].r_cedula);
-            $scope.cargarDirecciones($scope.proveedores[indice].r_cedula);
+            $scope.cargarCorreos( $scope.cedula_edicion);
+            $scope.cargarTelefonos( $scope.cedula_edicion);
+            $scope.cargarDirecciones($scope.cedula_edicion);
             $scope.cargarTodosDistritos();
-            $('#edicionProveedores').modal('show');
+            $('#edicionProveedor').modal('show');
         };
 
 

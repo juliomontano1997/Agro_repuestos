@@ -1,3 +1,99 @@
-<div class="container-fluid" ng-controller="CtrlProductos" >
+<div class="container-fluid">
+    <div id="modal_modificar_producto" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                    <h4 class="modal-title">Editando producto</h4>
+                </div>
+
+                <div class="modal-body">
+                    <label  for = "e_nombre" style='color:#000'>Nombre</label>
+                    <input name="informacion_editada" type="text" id="e_nombre"  class="form-control">
+
+                    <label  for = "e_precio" style='color:#000'>Precio</label>
+                    <input name="informacion_editada" type="text" id="e_precio" class="form-control">
+
+                    <label for="e_descripcion">Descripcion</label>
+                    <textarea name="informacion_editada" class="form-control" rows="5" id="e_descripcion"></textarea>
+
+                    <label  for = "e4" style='color:#000'>Familia</label>
+                    <select id="e4" class="form-control">
+                        <option value="{{familia.r_nombre}}" ng-repeat="familia in familias"> {{familia.r_nombre}}</option>
+                    </select>
+                    <br>
+                    <button type="button" class="btn btn-default" ng-click="modificarProducto()">Guardar</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="modal_agregar_producto" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                    <h4 class="modal-title">Nuevo producto</h4>
+                </div>
+                <div class="modal-body">
+                    <label  for = "n_nombre" style='color:#000'>Nombre</label>
+                    <input name="informacion_nueva" type="text" id="n_nombre"  class="form-control">
+
+                    <label  for = "n_precio" style='color:#000'>Precio</label>
+                    <input name="informacion_nueva" type="text" id="n_precio" class="form-control">
+
+                    <label for="n_descripcion">Descripcion</label>
+                    <textarea name="informacion_nueva" class="form-control" rows="5" id="n_descripcion"></textarea>
+
+                    <label  for = "id4" style='color:#000'>Familia</label>
+                    <select id="id4" class="form-control">
+                        <option value="{{familia.r_nombre}}" ng-repeat="familia in familias"> {{familia.r_nombre}}</option>
+                    </select>
+                    <br>
+                    <button type="button" class="btn btn-default" ng-click="agregarProducto()">Guardar</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="contenido" class="informacion">
+        <label style="color:#fff" >Productos</label>
+        <br>
+        <table class="table" style="text-align: left;">
+            <thead style="color:#fff">
+                <tr>
+                    <td>Nombre</td>
+                    <td>Precio</td>
+                    <td>Descripción</td>
+                    <td>Familia</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr  style="color:#fff" row="{{$index}}" ng-repeat="producto in productos">
+                        <td>{{producto.r_nombre}}</td>
+                        <td>{{producto.r_precio}}</td>
+                        <td>{{producto.r_descripcion}} </td>
+                        <td>{{producto.r_nombre_familia}} </td>
+                        <td><button type="button" class="btn" ng-click="cargarProducto($index)" style="color:black;">Editar</button></td>
+                        <td><button type="button" class="btn" ng-click="eliminarProducto($index)" style="color:black;">Eliminar</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn" data-toggle="modal" data-target="#modal_agregar_producto">Agregar producto</button>
+    </div>
 </div>    
