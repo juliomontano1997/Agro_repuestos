@@ -50,7 +50,6 @@ angular.module('moduloAdministrador')
             Conexion.getDatos(function (datos) { console.log(datos); $scope.telefonos= datos;},"get_telefonos",  '?cedula='+cedula);
         };
 
-
         $scope.cargarCorreos = function (cedula)
         {
             Conexion.getDatos(function (datos) { console.log(datos); $scope.correos = datos;},"get_correos",  '?cedula='+cedula);
@@ -60,9 +59,6 @@ angular.module('moduloAdministrador')
         {
             Conexion.getDatos(function (datos) { console.log(datos); $scope.direcciones = datos;},"get_direcciones",  '?cedula='+cedula);
         };
-
-
-
 
 
         $scope.cargarProvincias = function ()

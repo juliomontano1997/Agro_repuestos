@@ -67,6 +67,7 @@ const LS_REMEMBER_SESSION = "rememberSession";
  */
 const API_ROOT = "http://localhost:8081/";
 
+const TIPO_PAGO = ['Cheque','Efectivo','Tarjeta','Transferencia','Especial'];
 
 /**
  * Formatea una cadena de texto en base a los parámetros proporcionados.

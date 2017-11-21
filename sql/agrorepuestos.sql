@@ -50,6 +50,7 @@ CREATE DOMAIN
     check(value in ('A','P','C', 'E'));
 
 
+
 -- Tablas
 create table provincias
 (
@@ -69,6 +70,15 @@ create table personas
     genero t_genero not null,
     tipo t_tipo,
     constraint PK_cedulaEmpleado_empleados primary key(cedula)
+);
+
+
+
+create table persona_tipo
+(
+    cedula t_cedula,
+    tipo t_tipo,
+    constraint FK_tipo_persona_tipo foreign key (cedula) references personas
 );
 
 
@@ -364,8 +374,7 @@ RETURNS BOOLEAN AS
 $body$
 BEGIN
 	UPDATE informacion.personas 
-	SET (nombre, apellido1, apellido2, genero, tipo) = (nuevo_nombre, nuevo_apellido1, nuevo_apellido2,nuevo_genero,nuevo_tipo)
-        WHERE cedula =ced;
+	SET (nombre, apellido1, apellido2, genero, tipo) = (nuevo_nombre, nuevo_apellido1, nuevo_apellido2,nuevo_genero,nuevo_tipo) WHERE cedula =ced;
 	RETURN TRUE;
 	EXCEPTION WHEN OTHERS THEN
 	RETURN FALSE;	
@@ -911,6 +920,7 @@ CREATE OR REPLACE FUNCTION historial.insertar_producto_factura(id_factura int , 
 RETURNS BOOLEAN AS
 $body$
 BEGIN
+ -- Aqui falta la parte de actualizar factura 
 	INSERT INTO historial.productos_facturas VALUES (id_factura, id_producto, cantidad_producto, precio,precio*cantidad_producto);	
 	RETURN TRUE;
 	EXCEPTION WHEN OTHERS THEN
@@ -956,6 +966,8 @@ select * from historial.productos_facturas;
 
 
 select * from inventario.bodegas;
+
+
 CREATE OR REPLACE FUNCTION inventario.insertar_bodega(e_nombre t_nombre, e_tipo_almacen varchar, e_capacidad int, e_id_distrito int, e_direccion_exacta t_descripcion)
 RETURNS BOOLEAN AS
 $body$
@@ -1006,6 +1018,8 @@ select inventario.eliminar_bodega(3);
 
 
 select * from inventario.productos_bodegas;
+
+
 CREATE OR REPLACE FUNCTION inventario.insertar_producto_bodega(e_id_bodega int, e_id_producto int, e_cantidad int ) 
 RETURNS BOOLEAN AS
 $body$
@@ -1112,6 +1126,7 @@ select * from historial.envios;
 
 
 
+-- Verifica contraseñas 
 
 CREATE OR REPLACE FUNCTION informacion.mg_login(e_cedula t_cedula, e_password varchar)
 RETURNS BOOLEAN AS
@@ -1131,6 +1146,8 @@ select informacion.mg_login('9-0130-0731', 'prueba2017');
 -- Falta seguridad
 
 
+-- Retorna las personas de un determinado tipo 
+
 CREATE OR REPLACE FUNCTION informacion.mg_get_personas_tipo(IN e_tipo t_tipo, OUT r_cedula t_cedula, OUT r_nombre t_nombre, OUT r_apellido1 t_nombre, OUT r_apellido2 t_nombre, OUT r_genero t_genero)
 RETURNS 
 SETOF RECORD AS 
@@ -1147,13 +1164,9 @@ select informacion.mg_get_persona('9-0130-0731');
 DROP FUNCTION informacion.mg_get_direcciones(t_cedula)
 
 
-CREATE OR REPLACE FUNCTION informacion.mg_get_direcciones(IN e_cedula t_cedula,
-			 OUT r_id_distrito int,
-			 OUT r_direccion t_descripcion,
-			 OUT r_provincia t_nombre, 
-			 OUT r_canton t_nombre, 
-			 OUT r_distrito t_nombre,
-			 OUT r_id_direccion INT)
+-- Retorna las direcciones de una determinada persona 
+
+CREATE OR REPLACE FUNCTION informacion.mg_get_direcciones(IN e_cedula t_cedula,OUT r_id_distrito int,OUT r_direccion t_descripcion,OUT r_provincia t_nombre, OUT r_canton t_nombre, OUT r_distrito t_nombre,OUT r_id_direccion INT)
 RETURNS
 SETOF RECORD AS 
 $body$
@@ -1189,12 +1202,13 @@ END;
 $body$
 LANGUAGE plpgsql;
 
-
 select informacion.mg_get_direcciones('9-0130-0731');
 
 
 
 
+
+-- retorna todos los distritos 
 CREATE OR REPLACE FUNCTION informacion.mg_get_distritos (OUT r_id int,OUT r_nombre t_nombre)
 RETURNS
 SETOF RECORD AS 
@@ -1209,8 +1223,9 @@ LANGUAGE plpgsql;
 select informacion.mg_get_distritos()
 
 
---  Permite obtener las familias de productos 
 
+
+--  Permite obtener las familias de productos 
 
 CREATE OR REPLACE FUNCTION inventario.mg_get_familias(OUT r_id INT, OUT r_nombre t_nombre, OUT r_tipo_almacen t_nombre, OUT r_descripcion t_descripcion)
 RETURNS
@@ -1225,6 +1240,9 @@ LANGUAGE plpgsql;
 select inventario.mg_get_familias();
 
 
+
+
+-- Permite obtener las bodegas
 
 CREATE OR REPLACE FUNCTION inventario.mg_get_bodegas(OUT r_id INT, OUT r_nombre t_nombre, OUT r_tipo_almacen varchar, OUT r_capacidad INT, OUT r_provincia t_nombre, OUT r_canton t_nombre,OUT r_distrito t_nombre,OUT r_id_distrito INT, OUT r_direccion_exacta t_descripcion)
 RETURNS
@@ -1249,6 +1267,8 @@ LANGUAGE plpgsql;
 
 
 
+-- Permite obtener todos los productos 
+
 CREATE OR REPLACE FUNCTION inventario.mg_get_productos(OUT r_id INT, OUT r_nombre t_nombre, OUT r_precio NUMERIC, OUT r_descripcion t_descripcion, OUT r_id_familia INT, OUT r_nombre_familia t_nombre)
 RETURNS
 SETOF RECORD AS 
@@ -1267,7 +1287,7 @@ LANGUAGE plpgsql;
 
 
 
-
+-- Permite obtener todos los camiones 
 
 CREATE OR REPLACE FUNCTION inventario.mg_get_camiones(OUT r_placa t_placa, OUT r_capacidad INT,OUT r_descripcion t_descripcion,OUT r_combustible varchar(10))
 RETURNS
@@ -1285,6 +1305,9 @@ select inventario.mg_get_camiones();
 
 
 
+
+-- Permite obtener la informacion de los productos almacenados en una bodega 
+
 CREATE OR REPLACE FUNCTION inventario.mg_get_productos_bodega(IN id_almacen INT,OUT r_id_producto INT, OUT r_nombre t_nombre, OUT r_cantidad INT)
 RETURNS
 SETOF RECORD AS 
@@ -1300,6 +1323,65 @@ $body$
 LANGUAGE plpgsql;
 
 select inventario.mg_get_productos_bodega(1);
+
+
+select * from historial.facturas
+
+-- Permite obtener la informacion acerca de las facturas 
+
+CREATE OR REPLACE FUNCTION historial.mg_get_facturas(OUT r_id INT, OUT r_cedula t_cedula, OUT r_tipo_pago t_tipo_pago, OUT r_fecha DATE, OUT r_tipo BOOLEAN, OUT r_total NUMERIC)
+RETURNS
+SETOF RECORD AS 
+$body$
+BEGIN 	
+	RETURN query SELECT id, cedula, tipo_pago, fecha, tipo, total::NUMERIC from historial.facturas;
+END;
+$body$
+LANGUAGE plpgsql;
+
+
+
+-- Permite obtener la infomacion de una persona en especifico 
+
+CREATE OR REPLACE FUNCTION informacion.mg_get_persona(IN e_cedula t_cedula, OUT r_nombre t_nombre,
+						     OUT r_apellido1 t_nombre, OUT r_apellido2 t_nombre, OUT r_genero BOOLEAN, OUT r_tipo t_tipo)
+RETURNS
+SETOF RECORD AS 
+$body$
+BEGIN 	
+	RETURN query SELECT * from informacion.personas WHERE personas.cedula = e_cedula;
+END;
+$body$
+LANGUAGE plpgsql;
+
+
+
+
+-- Permite obtener la informacion de los productos de una factura. 
+CREATE OR REPLACE FUNCTION historial.mg_get_productos_factura(IN e_id_factura INT,OUT r_id_factura INT, OUT r_id INT, OUT r_nombre t_nombre,
+							     OUT r_precio NUMERIC, OUT r_cantidad INT, OUT r_precio_parcial NUMERIC)
+RETURNS
+SETOF RECORD AS 
+$body$
+BEGIN 	
+	RETURN query SELECT productos_facturas.id_factura,productos.id,productos.nombre, productos.precio::NUMERIC, productos_facturas.cantidad, productos_facturas.precio_parcial::NUMERIC from 
+		inventario.productos 
+		inner join 
+		historial.productos_facturas
+		on productos_facturas.id_producto = productos.id and productos_facturas.id_factura = e_id_factura;
+END;
+$body$
+LANGUAGE plpgsql;
+
+
+
+
+select historial.mg_get_productos_factura(1);
+
+
+
+
+
 
 
 

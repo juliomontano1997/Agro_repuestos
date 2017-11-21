@@ -1,0 +1,161 @@
+<div class="container-fluid">
+    <div id="modal_editar_factura" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Editando factura</h4>
+                </div>
+                <div class="modal-body">
+
+                    <label style='color:#000'>Tipo factura</label>
+                    <br>
+                    <input ng-click="cambiarClientes(1)" style='color: #000;'type="radio" id="compra_edicion" name="tipo_edicion_factura" >
+                    <label  for = "compra"  style="color:#000" >Compra</label>
+                    <br>
+                    <input ng-click="cambiarClientes(2)" style='color:#000' type="radio" id="venta_edicion" name="tipo_edicion_factura" >
+                    <label  for = "venta"  style="color:#000" >Venta</label>
+                    <br>
+
+
+
+                    <label  for = "e1" style='color:#000'>Cliente</label>
+                    <select class="form-control" id="e1" >
+                        <option ng-repeat="opcion in clientesFactura">{{opcion.r_nombre+" "+opcion.r_apellido1 + " "+ opcion.r_apellido2}}</option>
+                    </select>
+
+
+
+                    <label for="e2">Fecha</label>
+                    <input name="informacion_nueva" type="text" id="e2" class="form-control">
+                    <br>
+
+
+
+
+                    <label for="e3">Tipo pago</label>
+                    <select class="form-control" id="e3" >
+                        <option ng-repeat="opcion in tipo_pagos">{{opcion}}</option>
+                    </select>
+
+
+                    <button type="button" class="btn btn-default" ng-click="guardarFacturaEditada()">Guardar cambios</button>
+                    <br>
+                    <label style="color:#000000;" >Productos en factura</label>
+                    <br>
+                    <table style="background-color: #00b0ff" class="table">
+                        <thead style="color:#000">
+                        <tr>
+                            <td>Nombre</td>
+                            <td>Cantidad</td>
+                            <td>Precio</td>
+                            <td>Precio parcial</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr  style="color:#000" row="{{$index}}" ng-repeat="producto in productosFactura">
+                            <td>{{producto.r_nombre}}</td>
+                            <td>{{producto.r_cantidad}}</td>
+                            <td>{{producto.r_precio}}</td>
+                            <td>{{producto.r_precio_parcial}}</td>
+                            <td><button type="button" class="btn" ng-click="" style="color:black;">Ver/Editar</button></td>
+                            <td><button type="button" class="btn" ng-click="" style="color:black;">Eliminar</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <label for="e5">Agregar producto</label>
+                    <select class="form-control" id="e5" >
+                        <option ng-repeat="opcion in productos">{{opcion.r_nombre}}</option>
+                    </select>
+
+
+                    <label for="e4">Cantidad</label>
+                    <input name="informacion_nueva" type="text" id="e4" class="form-control">
+                    <br>
+                    <button type="button" class="btn btn-default" ng-click="agregarProductoAFactura()">Agregar</button>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal_agregar_factura" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Nueva factura</h4>
+                </div>
+                <div class="modal-body">
+
+                    <label style='color:#000'>Tipo factura</label>
+                    <br>
+                    <input ng-click="cambiarClientes(1)" style='color: #000;'type="radio" id="compra" name="tipo_nueva_factura" >
+                    <label  for = "compra"  style="color:#000" >Compra</label>
+                    <br>
+                    <input ng-click="cambiarClientes(2)" style='color:#000' type="radio" id="venta" name="tipo_nueva_factura" >
+                    <label  for = "venta"  style="color:#000" >Venta</label>
+                    <br>
+
+                    <label  for = "i1" style='color:#000'>Cliente</label>
+                    <select class="form-control" id="i1" >
+                        <option ng-repeat="opcion in clientesFactura">{{opcion.r_nombre+" "+opcion.r_apellido1 + " "+ opcion.r_apellido2}}</option>
+                    </select>
+
+                    <label for="i2">Fecha</label>
+                    <input name="informacion_nueva" type="text" id="i2" class="form-control">
+                    <br>
+
+                    <label for="i3">Tipo pago</label>
+                    <select class="form-control" id="i3" >
+                        <option ng-repeat="opcion in tipo_pagos">{{opcion}}</option>
+                    </select>
+                    <br>
+                    <button type="button" class="btn btn-default" ng-click="agregarFactura()">Guardar</button>
+                    <br>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="contenido" class="informacion">
+    <!-- Aqui se le aplicarian os diferentes filtros, pero como no tenemos tiempo no se los mostramos-->
+    <label style="color:#fff" >Facturas</label>
+    <br>
+    <table class="table">
+        <thead style="color:#fff">
+        <tr>
+            <td>Fecha</td>
+            <td>Total</td>
+            <td></td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr  style="color:#fff" row="{{$index}}" ng-repeat="factura in facturas">
+
+            <td>{{factura.r_fecha.toString().slice(0,10)}}</td>
+            <td>{{factura.r_total}}</td>
+            <td><button type="button" class="btn" ng-click="cargarFactura($index)" style="color:black;">Ver/Editar</button></td>
+            <td><button type="button" class="btn" ng-click="eliminarFactura($index)" style="color:black;">Eliminar</button></td>
+        </tr>
+        </tbody>
+    </table>
+    <button type="button" data-toggle="modal" data-target="#modal_agregar_factura" class="btn" >Nueva factura</button>
+    </div>
+</div>

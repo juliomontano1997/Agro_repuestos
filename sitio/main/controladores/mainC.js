@@ -4,6 +4,7 @@ angular.module('moduloAdministrador')
         var funciones = {
             getDatos : function (funcion,nombreQuery, parametros)
             {
+                console.log(TIPO_PAGO);
                 var direccion = API_ROOT+ nombreQuery+parametros;
                 $http({method : "GET", url :direccion})
                     .then(

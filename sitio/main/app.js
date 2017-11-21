@@ -1,14 +1,15 @@
 angular.module('moduloAdministrador',["ngRoute","ngResource"])
-    .config(['$routeProvider',function($routeProvider)
-    {
-        $routeProvider
-            .when("/inicio",{templateUrl:'secciones/inicio.html',controller:'CtrlInicio'})
-            .when("/empleados",{templateUrl:'secciones/personas/empleados.html',controller:'CtrlEmpleados'})
-            .when("/clientes",{templateUrl:'secciones/personas/clientes.html',controller:'CtrlClientes'})
-            .when("/proveedores",{templateUrl:'secciones/personas/proveedores.html',controller:'CtrlProveedores'})
-            .when("/familias",{templateUrl:'secciones/inventario/familias.html',controller:'CtrlFamilias'})
-            .when("/productos",{templateUrl:'secciones/inventario/productos.html',controller:'CtrlProductos'})
-            .when("/bodegas",{templateUrl:'secciones/inventario/bodegas.html',controller:'CtrlBodegas'})
-            .when("/camiones",{templateUrl:'secciones/inventario/camiones.html',controller:'CtrlCamiones'})
-            .when("/ventas",{templateUrl:'secciones/historiales/ventas.html',controller:'CtrlVentas'});
-    }]);
+.config(['$routeProvider',function($routeProvider)
+{
+    $routeProvider
+        .when("/inicio",{templateUrl:'secciones/inicio.html',controller:'CtrlInicio'})
+        .when("/empleados",{templateUrl:'secciones/personas/empleados.html',controller:'CtrlEmpleados'})
+        .when("/clientes",{templateUrl:'secciones/personas/clientes.html',controller:'CtrlClientes'})
+        .when("/proveedores",{templateUrl:'secciones/personas/proveedores.html',controller:'CtrlProveedores'})
+        .when("/familias",{templateUrl:'secciones/inventario/familias.html',controller:'CtrlFamilias'})
+        .when("/productos",{templateUrl:'secciones/inventario/productos.html',controller:'CtrlProductos'})
+        .when("/bodegas",{templateUrl:'secciones/inventario/bodegas.html',controller:'CtrlBodegas'})
+        .when("/camiones",{templateUrl:'secciones/inventario/camiones.html',controller:'CtrlCamiones'})
+        .when("/facturas",{templateUrl:'secciones/historiales/facturas.html',controller:'CtrlFacturas'})
+        .when("/envios",{templateUrl:'secciones/historiales/envios.html',controller:'CtrlEnvios'});
+}]);
