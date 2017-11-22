@@ -89,19 +89,13 @@ angular.module('moduloAdministrador')
 
         $scope.eliminarEmpleado = function (numeroEmpleado)
         {
-
             var eliminar= confirm("¿Deseas eliminar este empleado y toda su informacion?");
             if(eliminar)
             {
-
                 Conexion.eliminarDatos("eliminar_persona", "?cedula="+$scope.empleados[numeroEmpleado].r_cedula);
             }
             location.reload();
         };
-
-
-
-
 
         $scope.eliminarCorreo = function (indice)
         {
@@ -116,7 +110,6 @@ angular.module('moduloAdministrador')
 
         $scope.eliminarTelefono = function (telefono)
         {
-
             var eliminar= confirm("¿Deseas eliminar este telefono?");
             if(eliminar)
             {
@@ -137,8 +130,6 @@ angular.module('moduloAdministrador')
         {
             var correo = document.getElementById('e_n_correo').value;
             Conexion.agregarDatos("agregar_correo", "?cedula="+$scope.cedula_edicion+"&correo="+correo);
-
-
         };
 
         $scope.agregarTelefono = function ()
@@ -151,7 +142,6 @@ angular.module('moduloAdministrador')
         $scope.agregarDireccion = function ()
         {
             var id_distrito = $scope.distritos[$('#sel_distritos')[0].selectedIndex].r_id;
-
             var direccion = $('#dir_exacta').val();
             console.log(id_distrito+"  "+direccion);
             Conexion.agregarDatos("agregar_direccion", "?id_distrito="+id_distrito+"&cedula="+$scope.cedula_edicion+"&direccion="+direccion);
@@ -172,9 +162,9 @@ angular.module('moduloAdministrador')
 
         };
 
-
         $scope.editarCorreo = function (indice)
         {
+            console.log("sdnfsidjfidbudhfbgfbgiusdfbgobdf");
             console.log(indice);
             var correoAnterior = $scope.correos[indice].r_correo;
             console.log(correoAnterior);
@@ -208,9 +198,5 @@ angular.module('moduloAdministrador')
             Conexion.agregarDatos("agregar_persona", datos2);
             location.reload();
         };
-
-
-
         $scope.mostrarEmpleados();
-
     });

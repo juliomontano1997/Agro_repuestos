@@ -1543,11 +1543,9 @@ AS
 	or nombre = 'Alajuela') p ON ca.id_provincia = p.id
 );
 
-
 SELECT p.nombre||' '||p.apellido1||' '||p.apellido2 "Nombre Completo", c.correo "Correo"
 	FROM (SELECT cedula, nombre,apellido1,apellido2 FROM personas WHERE tipo = 'E') p INNER JOIN
         (SELECT cedula, correo FROM correos) c ON p.cedula = c.cedula INNER JOIN direccion_persona d ON d.cedula = p.cedula;
-
 
 /*5)Muestra los numeros telefonicos y correos de los 5 clientes mas importantes*/
 SELECT cL.n_c "Nombre Completo", c.correo "Correo", t.numero "Numero telefonico"
@@ -1555,7 +1553,6 @@ SELECT cL.n_c "Nombre Completo", c.correo "Correo", t.numero "Numero telefonico"
 	FROM (SELECT cedula, nombre,apellido1,apellido2 FROM personas WHERE tipo = 'C') p INNER JOIN (SELECT total, cedula FROM facturas) v
 	ON v.cedula = p.cedula GROUP BY "n_c", v.total, p.cedula ORDER BY v.total limit 5) cL
 	INNER JOIN correos c ON c.cedula = cL.cedula INNER JOIN telefonos t ON t.cedula = cL.cedula;
-
 
 /*6)Muestra el total de productos que contiene cada bodega*/
 SELECT b.nombre "Nombre bodega", SUM(p.cantidad_producto) "Total de productos almacenados" FROM
@@ -1582,4 +1579,3 @@ SELECT per.nombre "Nombre Proveedor", f.id "Identificador factura", f.fecha "Fec
 /*10)Ordena todas las facturas de los proveedores segun la fecha*/
 SELECT per.nombre "Nombre Proveedor", f.id "Identificador factura", f.fecha "Fecha" FROM (SELECT cedula, nombre FROM personas WHERE tipo = 'P') per
 	INNER JOIN facturas f ON per.cedula = f.cedula ORDER BY f.fecha;
-
