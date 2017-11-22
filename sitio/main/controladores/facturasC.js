@@ -16,7 +16,7 @@ angular.module('moduloAdministrador')
     {
         Conexion.getDatos(function (datos) {$scope.facturas = datos;}, "get_facturas","");
         Conexion.getDatos(function (datos) {$scope.productos= datos;}, "get_productos","");
-        Conexion.getDatos(function (datos){$scope.clientes=datos;}, "get_personas_tipo","?tipo=C");
+        Conexion.getDatos(function (datos){console.log("Clientteesdsdfsdfsdfdsf:"); $scope.clientes=datos; console.log(datos);}, "get_personas_tipo","?tipo=C");
         Conexion.getDatos(function (datos) {$scope.clientesFactura=datos;$scope.administradores=datos;}, "get_personas_tipo","?tipo=A");
     }
 
@@ -70,7 +70,7 @@ angular.module('moduloAdministrador')
         var fecha = document.getElementById("e2").value;
         var detalle = document.getElementById("e31").value;
 
-        var datos = "?cedula="+cedula+"&tipoPago="+tipoPago+"&tipo="+tipo+"&fecha="+fecha+"&detalle="+detalle;
+        var datos = "?cedula="+cedula+"&id="+$scope.id_factura_edicion+"&tipoPago="+tipoPago+"&tipo="+tipo+"&fecha="+fecha+"&detalle="+detalle;
         Conexion.agregarDatos("editar_factura", datos);
     };
 
@@ -143,7 +143,5 @@ angular.module('moduloAdministrador')
             location.reload();
         }
     };
-
-
     cargarFacturas();
 });

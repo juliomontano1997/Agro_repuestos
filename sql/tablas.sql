@@ -194,7 +194,7 @@ create table historial.productos_facturas
     cantidad int not null,
     precio_unitario money not null,
     precio_parcial money not null,
-    constraint FK_id_factura_productos_facturas foreign key (id_factura) references historial.facturas,
+    constraint FK_id_factura_productos_facturas foreign key (id_factura) references historial.facturas on delete cascade on update cascade,
     constraint FK_id_producto_productos_facturas foreign key (id_producto) references inventario.productos
 );
 
@@ -366,4 +366,73 @@ insert into inventario.camiones values
 ('NDR-123', 3000, 'Camion mediano blanco', 'Gasolina'),
 ('NDR-321', 5000, 'Camion mediano negro', 'Diesel');
 
-select * from inventario.camiones
+--------------------Consultas------------------------------------
+
+/*1)Ordena de mayor a menor los clientes segun las compras realizadas*/
+SELECT p.nombre||' '||p.apellido1||' '||p.apellido2  "Nombre Completo", SUM(v.total) "Monto total comprado"
+	FROM (SELECT per.cedula, nombre, apellido1, apellido2 FROM informacion.personas per INNER JOIN
+	(SELECT cedula FROM informacion.persona_tipo WHERE tipo = 'C') t ON per.cedula = t.cedula )p
+	INNER JOIN (SELECT total, cedula FROM historial.facturas) v
+	ON v.cedula = p.cedula GROUP BY "Nombre Completo", v.total ORDER BY v.total;
+
+/*2)Muestra de mayor a menor los empleados segun las ventas realizadas*/
+SELECT p.nombre||' '||p.apellido1||' '||p.apellido2  "Nombre Completo", SUM(v.total) "Monto total vendido"
+	FROM (SELECT per.cedula, nombre,apellido1,apellido2 FROM informacion.personas per INNER JOIN
+	(SELECT cedula FROM informacion.persona_tipo WHERE tipo = 'C') t ON per.cedula = t.cedula )p
+	INNER JOIN (SELECT total, cedula FROM historial.facturas) v
+	ON v.cedula = p.cedula GROUP BY "Nombre Completo", v.total ORDER BY v.total;
+
+/*3)Ordena los productos y el total comprado de estos de mayor a menor*/
+SELECT p.nombre "Nombre del producto", SUM(f.precio_parcial) "Total vendido"
+	FROM (SELECT id, nombre FROM inventario.productos) p INNER JOIN (SELECT id_producto, precio_parcial FROM historial.productos_facturas) f
+	ON p.id = f.id_producto GROUP BY "Nombre del producto", f.precio_parcial ORDER BY f.precio_parcial;
+
+/*4)Muestra los correos de los empleados de San Jose y San Carlos */
+CREATE VIEW direccion_persona
+AS
+(
+    SELECT d.cedula FROM
+	informacion.direcciones d INNER JOIN informacion.distritos di ON d.id_distrito = di.id
+	INNER JOIN informacion.cantones ca ON di.id_canton = ca.id INNER JOIN (SELECT id FROM informacion.provincias WHERE nombre = 'San Jose'
+	or nombre = 'Alajuela') p ON ca.id_provincia = p.id
+);
+
+SELECT p.nombre||' '||p.apellido1||' '||p.apellido2 "Nombre Completo", c.correo "Correo"
+	FROM (SELECT per.cedula, nombre,apellido1,apellido2 FROM informacion.personas per INNER JOIN
+	(SELECT cedula from  informacion.persona_tipo WHERE tipo = 'E') t ON t.cedula = per.cedula) p
+	INNER JOIN (SELECT cedula, correo FROM informacion.correos) c ON p.cedula = c.cedula INNER JOIN direccion_persona d ON d.cedula = p.cedula;
+
+/*5)Muestra los numeros telefonicos y correos de los 5 clientes mas importantes*/
+SELECT cL.n_c "Nombre Completo", c.correo "Correo", t.numero "Numero telefonico"
+	FROM (SELECT p.cedula, p.nombre||' '||p.apellido1||' '||p.apellido2  "n_c", SUM(v.total) "Monto total comprado"
+	FROM (SELECT per.cedula, nombre,apellido1,apellido2 FROM informacion.personas per INNER JOIN
+	(SELECT cedula from  informacion.persona_tipo WHERE tipo = 'C') t ON t.cedula = per.cedula) p
+	INNER JOIN (SELECT total, cedula FROM historial.facturas) v
+	ON v.cedula = p.cedula GROUP BY "n_c", v.total, p.cedula ORDER BY v.total limit 5) cL
+	INNER JOIN informacion.correos c ON c.cedula = cL.cedula INNER JOIN informacion.telefonos t ON t.cedula = cL.cedula;
+
+/*6)Muestra el total de productos que contiene cada bodega*/
+SELECT b.nombre "Nombre bodega", SUM(p.cantidad_producto) "Total de productos almacenados" FROM
+	(SELECT id, nombre FROM inventario.bodegas) b INNER JOIN  (SELECT id_bodega, cantidad_producto FROM inventario.productos_bodegas) p
+	ON b.id = p.id_bodega GROUP BY "Nombre bodega" ORDER BY "Total de productos almacenados";
+
+/*7)Muestra el total pagado y la cantidad de veces utilizado de los tipos de pago que acepta la aplicación*/
+SELECT f.tipo_pago "Tipo de pago", SUM(f.total) "Total pagado", COUNT(f.tipo_pago) "Cantidad de veces utilizado" FROM historial.facturas f
+	GROUP BY "Tipo de pago" ORDER BY "Cantidad de veces utilizado";
+
+/*8)La cantidad de pedidos de cada cliente*/
+SELECT p.nombre||' '||p.apellido1||' '||p.apellido2 "Nombre Completo", COUNT(e.cedula) "Cantidad de pedidos" FROM
+	(SELECT per.cedula, nombre, apellido1, apellido2 FROM informacion.personas per INNER JOIN
+	(SELECT cedula from  informacion.persona_tipo WHERE tipo = 'C') t ON t.cedula = per.cedula) p INNER JOIN
+	historial.envios e ON e.cedula = p.cedula GROUP BY "Nombre Completo";
+
+/*9)Muestra el promedio de ventas del año 2016*/
+SELECT COUNT(f.id)*SUM(f.total) "Promedio de ventas año 2016" FROM (SELECT per.cedula FROM informacion.personas per INNER JOIN
+	(SELECT cedula from  informacion.persona_tipo WHERE tipo = 'C') t ON t.cedula = per.cedula) p
+	INNER JOIN (SELECT id, total, cedula FROM historial.facturas f WHERE fecha > '01-01-16' and fecha < '01-01-17') f ON p.cedula = f.cedula;
+
+/*10)Ordena todas las facturas de los proveedores segun la fecha*/
+SELECT per.nombre "Nombre Proveedor", f.id "Identificador factura", f.fecha "Fecha" FROM
+    (SELECT per.cedula, nombre FROM informacion.personas per INNER JOIN
+    (SELECT cedula from  informacion.persona_tipo WHERE tipo = 'P') t ON t.cedula = per.cedula) per
+	INNER JOIN historial.facturas f ON per.cedula = f.cedula ORDER BY f.fecha;

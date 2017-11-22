@@ -328,12 +328,14 @@ FUNCTION historial.modificar_factura(id_factura int , e_cedula t_cedula,e_detall
 RETURNS BOOLEAN AS
 $body$
 BEGIN
-	UPDATE historial.facturas SET (id,cedula,detalle, tipo_pago,fecha, tipo)=(id_factura, e_detalle, e_cedula, e_tipo_pago, e_fecha, e_tipo) WHERE id = id_factura;
+	UPDATE historial.facturas SET (cedula,detalle, tipo_pago,fecha, tipo)=(e_cedula, e_detalle, e_tipo_pago, e_fecha, e_tipo) WHERE id = id_factura;
 	RETURN TRUE;
 	EXCEPTION WHEN OTHERS THEN RETURN FALSE;
 END;
 $body$
 LANGUAGE plpgsql;
+
+select * from historial.facturas
 
 
 
@@ -579,18 +581,31 @@ LANGUAGE plpgsql;
 
 
 
-CREATE OR REPLACE FUNCTION historial.insertar_producto_factura(id_factura int , id_producto int, cantidad_producto int, precio numeric)
+CREATE OR REPLACE FUNCTION historial.insertar_producto_factura(e_id_factura int , e_id_producto int, e_cantidad_producto int, e_precio numeric)
 RETURNS BOOLEAN AS
 $body$
 BEGIN
 	-- Aqui falta la parte de actualizar factura
-	INSERT INTO historial.productos_facturas VALUES (id_factura, id_producto, cantidad_producto, precio,precio*cantidad_producto);
+	IF (SELECT count(id_bodega) from inventario.productos_bodegas where id_producto = e_id_producto and cantidad_producto >= e_cantidad_producto) > 0 THEN  -- Verifica si las bodegas tienen la cantidad de producto
+	
+		IF (SELECT count(id_factura) from historial.productos_facturas WHERE id_factura = e_id_factura and id_producto = e_id_producto) > 0 THEN 
+		
+			UPDATE historial.productos_facturas SET (id_factura, id_producto, cantidad,precio_unitario, precio_parcial)= (e_id_factura, e_id_producto, e_cantidad_producto+cantidad, e_precio, e_precio*(e_cantidad_producto+cantidad)) 
+				WHERE id_producto = e_id_producto and id_factura = e_id_factura;
+			RETURN TRUE;
+		ELSE 		
+			INSERT INTO historial.productos_facturas values (e_id_factura, e_id_producto, e_cantidad_producto, e_precio, e_precio*e_cantidad_producto);			
+			RETURN TRUE;
+		END IF;
+	ELSE
+		RETURN FALSE;
+	END IF;	
 	RETURN TRUE;
-	EXCEPTION WHEN OTHERS THEN
-	RETURN FALSE;
+	EXCEPTION WHEN OTHERS THEN RETURN FALSE;
 END;
 $body$
 LANGUAGE plpgsql;
+
 
 CREATE OR REPLACE FUNCTION historial.modificar_producto_factura(e_id_factura int, e_id_producto int, e_cantidad int, e_precio numeric)
 RETURNS BOOLEAN AS
@@ -609,6 +624,7 @@ CREATE OR REPLACE FUNCTION historial.eliminar_producto_factura(e_id_factura int,
 RETURNS BOOLEAN AS
 $body$
 BEGIN
+	-- Aqui falta la parte de actualizar factura
 	DELETE FROM historial.productos_facturas WHERE  id_factura = e_id_factura AND id_producto = e_id_producto;
 	RETURN TRUE;
 	EXCEPTION WHEN OTHERS THEN

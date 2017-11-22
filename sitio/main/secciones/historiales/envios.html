@@ -1,6 +1,5 @@
 <div class="container-fluid">
 
-
     <div id="modal_editar_factura" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -9,7 +8,6 @@
                     <h4 class="modal-title">Editando factura</h4>
                 </div>
                 <div class="modal-body">
-
                     <label style='color:#000'>Tipo factura</label>
                     <br>
                     <input ng-click="cambiarClientes(1)" style='color: #000;'type="radio" id="compra_edicion" name="tipo_edicion_factura" >
@@ -18,9 +16,6 @@
                     <input ng-click="cambiarClientes(2)" style='color:#000' type="radio" id="venta_edicion" name="tipo_edicion_factura" >
                     <label  for = "venta"  style="color:#000" >Venta</label>
                     <br>
-
-
-
                     <label  for = "e1" style='color:#000'>Cliente</label>
                     <select class="form-control" id="e1" >
                         <option ng-repeat="opcion in clientesFactura">{{opcion.r_nombre+" "+opcion.r_apellido1 + " "+ opcion.r_apellido2}}</option>

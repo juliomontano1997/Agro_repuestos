@@ -256,18 +256,9 @@ LANGUAGE plpgsql;
 
 -------------------------------------------------------------------- Lo de arriba funciona ------------------------------------------------------------------
 
--- Permite obtener todos los camiones
 
 
--- Permite obtener la informacion acerca de las facturas
-
-
-
-
-
--- Permite obtener la informacion de los productos de una factura.
-CREATE OR REPLACE FUNCTION historial.mg_get_productos_factura(IN e_id_factura INT,OUT r_id_factura INT, OUT r_id INT, OUT r_nombre t_nombre,
-							     OUT r_precio NUMERIC, OUT r_cantidad INT, OUT r_precio_parcial NUMERIC)
+CREATE OR REPLACE FUNCTION historial.mg_get_envios(IN e_id_factura INT,OUT r_id INT, OUT r_id_factura INT, OUT r_nombre t_nombre,OUT r_precio NUMERIC, OUT r_cantidad INT, OUT r_precio_parcial NUMERIC)
 RETURNS
 SETOF RECORD AS
 $body$
@@ -280,3 +271,18 @@ BEGIN
 END;
 $body$
 LANGUAGE plpgsql;
+
+
+select * from historial.envios
+select * from informacion.persona_tipo where tipo = 'E'
+select * from historial.facturas
+select * from inventario.camiones
+
+select historial.insertar_envio(1,'1-0000-1111','NDR-123','1-2-2011')
+
+select * from 
+	historial.envios 
+	inner join 
+	informacion.personas
+	on envios.cedula = personas.cedula
+
