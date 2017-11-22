@@ -47,11 +47,11 @@ angular.module('moduloAdministrador')
         }
         var tipoPago = $scope.tipo_pagos[document.getElementById("i3").selectedIndex];
         var fecha = document.getElementById("i2").value;
+        var detalle = document.getElementById("i4").value;
 
-        var datos = "?cedula="+cedula+"&tipoPago="+tipoPago+"&tipo="+tipo+"&fecha="+fecha;
+        var datos = "?cedula="+cedula+"&tipoPago="+tipoPago+"&tipo="+tipo+"&fecha="+fecha+"&detalle="+detalle;
         Conexion.agregarDatos("agregar_factura", datos);
         location.reload();
-
     };
 
     $scope.guardarFacturaEditada = function()
@@ -68,16 +68,17 @@ angular.module('moduloAdministrador')
         }
         var tipoPago = $scope.tipo_pagos[document.getElementById("e3").selectedIndex];
         var fecha = document.getElementById("e2").value;
+        var detalle = document.getElementById("e31").value;
 
-        var datos = "?cedula="+cedula+"&tipoPago="+tipoPago+"&tipo="+tipo+"&fecha="+fecha;
+        var datos = "?cedula="+cedula+"&tipoPago="+tipoPago+"&tipo="+tipo+"&fecha="+fecha+"&detalle="+detalle;
         Conexion.agregarDatos("editar_factura", datos);
     };
 
     $scope.cargarFactura = function (indice)
     {
-
         var factura = $scope.facturas[indice];
         console.log(factura);
+        console.log($scope.clientes);
         $scope.id_factura_edicion=factura.r_id;
         Conexion.getDatos(function (datos){$scope.productosFactura= datos; console.log($scope.productosFactura)},"get_productos_factura","?id_factura="+$scope.id_factura_edicion);
         document.getElementsByName("tipo_edicion_factura")[0].checked= factura.r_tipo;
@@ -115,6 +116,7 @@ angular.module('moduloAdministrador')
             }
         }
         document.getElementById("e2").value = factura.r_fecha.toString().slice(0, 10) ;
+        document.getElementById("e31").value = factura.r_detalle ;
         $("#modal_editar_factura").modal("show");
     };
 

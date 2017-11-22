@@ -361,3 +361,9 @@ INSERT INTO inventario.productos (nombre, precio, descripcion, id_familia) VALUE
 ('Castrol',10500,'descripcion',3);
 
 
+
+insert into inventario.camiones values
+('NDR-123', 3000, 'Camion mediano blanco', 'Gasolina'),
+('NDR-321', 5000, 'Camion mediano negro', 'Diesel');
+
+select * from inventario.camiones

@@ -92,7 +92,7 @@ angular.module('moduloAdministrador')
             var eliminar= confirm("¿Deseas eliminar este empleado y toda su informacion?");
             if(eliminar)
             {
-                Conexion.eliminarDatos("eliminar_persona", "?cedula="+$scope.empleados[numeroEmpleado].r_cedula);
+                Conexion.eliminarDatos("eliminar_persona", "?cedula="+$scope.empleados[numeroEmpleado].r_cedula+"&tipo=E");
             }
             location.reload();
         };
@@ -175,13 +175,10 @@ angular.module('moduloAdministrador')
 
         $scope.guardar_informacion_empleado = function()
         {
-            console.log('Hola putos'+$scope.cedula_edicion);
             var ced = $scope.cedula_edicion;
-            var n1 = document.getElementById('e_nombre').value;
-            var a1 = document.getElementById('e_apellido1').value;
-            var a2 = document.getElementById('e_apellido2').value;
+            var inf = document.getElementsByName("datos_editados");
             var gen=document.getElementsByName("gender")[0].checked;
-            var datos = "?cedula="+ced+"&nombre="+n1+"&apellido1="+a1+"&apellido2="+a2+"&genero="+gen+"&tipo=E";
+            var datos = "?o_cedula="+ced+"&cedula="+inf[0].value+"&nombre="+inf[1].value+"&apellido1="+inf[2].value+"&apellido2="+inf[3].value+"&genero="+gen+"&tipo=E";
             Conexion.agregarDatos("modificar_persona", datos);
         };
 

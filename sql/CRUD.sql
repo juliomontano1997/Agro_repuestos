@@ -72,17 +72,19 @@ LANGUAGE plpgsql;
 
 
 -- Personas
-CREATE OR REPLACE FUNCTION informacion.insertar_persona(ced t_cedula, nombre t_nombre, apellido1 t_nombre, apellido2 t_nombre, genero boolean, tipo_persona t_tipo)
+CREATE OR REPLACE FUNCTION informacion.insertar_persona(
+ced t_cedula, nombre t_nombre, apellido1 t_nombre, apellido2 t_nombre, genero boolean, tipo_persona t_tipo)
 RETURNS BOOLEAN AS
 $body$
 BEGIN
 	IF (SELECT count(cedula) from informacion.personas where cedula = ced)= 0 THEN 
-		INSERT INTO informacion.personas VALUES (cedula, nombre, apellido1, apellido2, genero);				
-		INSERT INTO informacion.persona_tipo values(cedula,tipo);
+		INSERT INTO informacion.personas VALUES (ced, nombre, apellido1, apellido2, genero);
+		INSERT INTO informacion.persona_tipo values(ced,tipo_persona);
 		RETURN TRUE;
 	ELSE 
 		IF (select count(cedula) from informacion.persona_tipo where cedula=ced and tipo = tipo_persona)=0 THEN
 			INSERT INTO informacion.persona_tipo values (ced, tipo_persona);
+			RETURN TRUE;
 		ELSE 
 			RETURN FALSE;	
 		END IF;
@@ -93,7 +95,6 @@ BEGIN
 END;
 $body$
 LANGUAGE plpgsql;
-select informacion.insertar_persona('1-0000-1111', 'sfsd', 'sdfsdf', 'sdfsdf', true, 'P')
 
 
 CREATE OR REPLACE FUNCTION informacion.modificar_persona(o_ced t_cedula, ced t_cedula, n_nombre t_nombre, n_apellido1 t_nombre, n_apellido2 t_nombre, n_genero boolean)
@@ -113,13 +114,12 @@ CREATE OR REPLACE FUNCTION informacion.eliminar_persona(e_cedula t_cedula, e_tip
 RETURNS BOOLEAN AS
 $body$
 BEGIN
-	DELETE FROM informacion.personas_tipo WHERE cedula = e_cedula and tipo = e_tipo;
+	DELETE FROM informacion.persona_tipo WHERE cedula = e_cedula and tipo = e_tipo;
 	RETURN TRUE;
 	EXCEPTION WHEN OTHERS THEN RETURN FALSE;
 END;
 $body$
 LANGUAGE plpgsql;
-
 
 
 -- Familias
@@ -315,7 +315,7 @@ CREATE OR REPLACE FUNCTION historial.insertar_factura(e_cedula t_cedula,e_detall
 RETURNS BOOLEAN AS
 $body$
 BEGIN
-	INSERT INTO historial.facturas(cedula, detalle, tipo_pago, fecha, tipo) VALUES (e_cedula,e_detalle, de_tipo_pago, e_fecha, e_tipo);
+	INSERT INTO historial.facturas(cedula, detalle, tipo_pago, fecha, tipo) VALUES (e_cedula,e_detalle,e_tipo_pago, e_fecha, e_tipo);
 	RETURN TRUE;
 	EXCEPTION WHEN OTHERS THEN RETURN FALSE;
 END;
@@ -503,7 +503,14 @@ CREATE OR REPLACE FUNCTION inventario.insertar_producto_bodega(e_id_bodega int, 
 RETURNS BOOLEAN AS
 $body$
 BEGIN
-	INSERT INTO inventario.productos_bodegas VALUES (e_id_bodega, e_id_producto, e_cantidad);
+	IF(SELECT count(id_producto) from inventario.productos_bodegas where id_producto=e_id_producto and id_bodega = e_id_bodega)=1 THEN
+		UPDATE inventario.productos_bodegas set (cantidad_producto)=(cantidad_producto+e_cantidad)  WHERE id_bodega = e_id_bodega AND id_producto = e_id_producto;
+		RETURN TRUE;
+	ELSE 		
+		INSERT INTO inventario.productos_bodegas VALUES (e_id_bodega, e_id_producto, e_cantidad);
+		RETURN TRUE;
+	END IF; 
+	
 	RETURN TRUE;
 	EXCEPTION WHEN OTHERS THEN RETURN FALSE;
 END;

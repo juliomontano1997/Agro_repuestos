@@ -38,6 +38,11 @@
                         <option ng-repeat="opcion in tipo_pagos">{{opcion}}</option>
                     </select>
 
+                    <br>
+                    <label for="e31">Detalle</label>
+                    <textarea  name="informacion_nueva" type="text" id="e31" rows="3" class="form-control"></textarea>
+
+
 
                     <button type="button" class="btn btn-default" ng-click="guardarFacturaEditada()">Guardar cambios</button>
                     <br>
@@ -100,7 +105,7 @@
 
                     <label style='color:#000'>Tipo factura</label>
                     <br>
-                    <input ng-click="cambiarClientes(1)" style='color: #000;'type="radio" id="compra" name="tipo_nueva_factura" >
+                    <input ng-click="cambiarClientes(1)" style='color: #000;' type="radio"  id="compra" name="tipo_nueva_factura" >
                     <label  for = "compra"  style="color:#000" >Compra</label>
                     <br>
                     <input ng-click="cambiarClientes(2)" style='color:#000' type="radio" id="venta" name="tipo_nueva_factura" >
@@ -120,7 +125,14 @@
                     <select class="form-control" id="i3" >
                         <option ng-repeat="opcion in tipo_pagos">{{opcion}}</option>
                     </select>
+
+
                     <br>
+                    <label for="i4">Detalle</label>
+                    <textarea  name="informacion_nueva" type="text" id="i4" rows="3" class="form-control"></textarea>
+
+                    <br>
+
                     <button type="button" class="btn btn-default" ng-click="agregarFactura()">Guardar</button>
                     <br>
 
@@ -141,6 +153,7 @@
         <thead style="color:#fff">
         <tr>
             <td>Fecha</td>
+            <td>Detalle</td>
             <td>Total</td>
             <td></td>
             <td></td>
@@ -150,6 +163,7 @@
         <tr  style="color:#fff" row="{{$index}}" ng-repeat="factura in facturas">
 
             <td>{{factura.r_fecha.toString().slice(0,10)}}</td>
+            <td>{{factura.r_detalle}}</td>
             <td>{{factura.r_total}}</td>
             <td><button type="button" class="btn" ng-click="cargarFactura($index)" style="color:black;">Ver/Editar</button></td>
             <td><button type="button" class="btn" ng-click="eliminarFactura($index)" style="color:black;">Eliminar</button></td>

@@ -82,16 +82,12 @@ angular.module('moduloAdministrador')
             Conexion.getDatos(function (datos) { console.log(datos); $scope.direcciones = datos;},"get_direcciones",  '?cedula='+cedula);
         };
 
-
-
         $scope.eliminarProveedor= function (numeroProveedor)
         {
-
             var eliminar= confirm("¿Deseas eliminar este proveedores y toda su informacion?");
             if(eliminar)
             {
-
-                Conexion.eliminarDatos("eliminar_persona", "?cedula="+$scope.proveedores[numeroProveedor].r_cedula);
+                Conexion.eliminarDatos("eliminar_persona", "?cedula="+$scope.proveedores[numeroProveedor].r_cedula+"&tipo=P");
             }
             location.reload();
         };
@@ -115,7 +111,6 @@ angular.module('moduloAdministrador')
 
         $scope.eliminarTelefono = function (telefono)
         {
-
             var eliminar= confirm("¿Deseas eliminar este telefono?");
             if(eliminar)
             {
@@ -185,11 +180,9 @@ angular.module('moduloAdministrador')
         $scope.guardar_informacion_proveedor = function()
         {
             var ced = $scope.cedula_edicion;
-            var n1 = document.getElementById('e_nombre').value;
-            var a1 = document.getElementById('e_apellido1').value;
-            var a2 = document.getElementById('e_apellido2').value;
+            var inf = document.getElementsByName("edicion_proveedor");
             var gen=document.getElementsByName("gender")[0].checked;
-            var datos = "?cedula="+ced+"&nombre="+n1+"&apellido1="+a1+"&apellido2="+a2+"&genero="+gen+"&tipo=E";
+            var datos = "?o_cedula="+ced+"&cedula="+inf[0].value+"&nombre="+inf[1].value+"&apellido1="+inf[2].value+"&apellido2="+inf[3].value+"&genero="+gen+"&tipo=P";
             Conexion.agregarDatos("modificar_persona", datos);
         };
 
